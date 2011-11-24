@@ -5,11 +5,13 @@ import org.gcontracts.annotations.Requires
 import org.spockframework.runtime.AbstractRunListener
 import org.spockframework.runtime.model.FeatureInfo
 import org.spockframework.runtime.model.SpecInfo
+import groovy.util.logging.Slf4j
 
 
 /**
  * {@link Time} extension listener.
  */
+@Slf4j
 class TimeRunListener extends AbstractRunListener
 {
     @SuppressWarnings( 'StatelessClass' )
@@ -39,8 +41,11 @@ class TimeRunListener extends AbstractRunListener
     @Requires({ ( executionTime > 0 ) && annotation })
     private void checkTime( long executionTime, Time annotation, String title )
     {
-        assert executionTime >= annotation.min(), "$title execution time ($executionTime ms) is less then 'min' (${ annotation.min() } ms)"
-        assert executionTime <= annotation.max(), "$title execution time ($executionTime ms) is more then 'max' (${ annotation.max() } ms)"
+        String message        = "$title execution time ($executionTime ms)"
+        assert executionTime >= annotation.min(), "$message is less then 'min' (${ annotation.min() } ms)"
+        assert executionTime <= annotation.max(), "$message is more then 'max' (${ annotation.max() } ms)"
+
+        log.info( message )
     }
 
 

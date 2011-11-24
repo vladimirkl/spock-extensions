@@ -19,7 +19,8 @@ repositories {
 dependencies {
 	groovy  'org.codehaus.groovy:groovy:1.8.2' // GContracts '1.2.4' only works with Groovy 1.8.2
 	compile 'org.spockframework:spock-core:0.6-groovy-1.8-SNAPSHOT',
-            'org.gcontracts:gcontracts-core:1.2.4'
+            'org.gcontracts:gcontracts-core:1.2.4',
+            'org.slf4j:slf4j-api:1.6.4'
 }
 
 idea.project {
