@@ -5,6 +5,8 @@ apply plugin: 'idea'
 
 defaultTasks 'clean', 'codenarc', 'build', 'install'
 
+group = 'com.energizedwork'
+
 codenarcRuleSetFiles = [ 'codenarc.groovy' ]
 apply from: 'https://raw.github.com/evgeny-goldin/gradle-plugins/dev/src/main/groovy/CodeNarc.gradle'
 
@@ -15,8 +17,9 @@ repositories {
 }
 
 dependencies {
-	groovy  'org.codehaus.groovy:groovy:1.8.4'
-	compile 'org.spockframework:spock-core:0.6-groovy-1.8-SNAPSHOT'
+	groovy  'org.codehaus.groovy:groovy:1.8.2' // GContracts '1.2.4' only works with Groovy 1.8.2
+	compile 'org.spockframework:spock-core:0.6-groovy-1.8-SNAPSHOT',
+            'org.gcontracts:gcontracts-core:1.2.4'
 }
 
 idea.project {
@@ -33,5 +36,11 @@ idea.module {
 task wrapper( type: Wrapper ) { gradleVersion = '1.0-milestone-6' }
 
 
-version = '1.0-SNAPSHOT'
-group   = 'com.energizedwork'
+/**
+ * Adding sources artifact
+ */
+task sourcesJar( type: Jar, dependsOn: classes ) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+artifacts { archives sourcesJar }
