@@ -38,7 +38,7 @@ class TimeRunListener extends AbstractRunListener
      * @param annotation    annotation instance
      * @param title         execution entity title
      */
-    @Requires({ ( executionTime > 0 ) && annotation })
+    @Requires({ ( executionTime > 0 ) && annotation && title })
     private void checkTime( long executionTime, Time annotation, String title )
     {
         String message        = "$title execution time ($executionTime ms)"
