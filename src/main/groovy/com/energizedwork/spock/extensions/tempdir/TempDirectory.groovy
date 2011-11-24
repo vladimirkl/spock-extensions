@@ -1,4 +1,4 @@
-package com.energizedwork.spock.extensions.temp
+package com.energizedwork.spock.extensions.tempdir
 
 import org.spockframework.runtime.extension.ExtensionAnnotation
 import java.lang.annotation.*
