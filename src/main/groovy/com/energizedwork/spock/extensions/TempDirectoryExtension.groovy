@@ -6,11 +6,12 @@ import org.spockframework.runtime.model.*
 
 class TempDirectoryExtension extends AbstractAnnotationDrivenExtension<TempDirectory> {
 
-	private static final File tempDir = new File(System.properties."java.io.tmpdir")
+	private static final File TEMP_DIR = new File(System.getProperty( 'java.io.tmpdir' ))
 
 	@Override
+    @SuppressWarnings( 'UnnecessaryGetter' )
 	void visitFieldAnnotation(TempDirectory annotation, FieldInfo field) {
-		def tempDirectory = new File(tempDir, generateFilename(field.name))
+		def tempDirectory = new File(TEMP_DIR, generateFilename(field.name))
 
 		def interceptor
 		if (field.isShared()) {
@@ -18,6 +19,7 @@ class TempDirectoryExtension extends AbstractAnnotationDrivenExtension<TempDirec
 		} else {
 			interceptor = new TempDirectoryInterceptor(field, tempDirectory)
 		}
+
 		interceptor.install(field.parent.getTopSpec())
 	}
 
@@ -32,7 +34,7 @@ abstract class DirectoryManagingInterceptor extends AbstractMethodInterceptor {
 	private final FieldInfo field
 	private final File directory
 
-	DirectoryManagingInterceptor(FieldInfo field, File directory) {
+	protected DirectoryManagingInterceptor(FieldInfo field, File directory) {
 		this.field = field
 		this.directory = directory
 	}

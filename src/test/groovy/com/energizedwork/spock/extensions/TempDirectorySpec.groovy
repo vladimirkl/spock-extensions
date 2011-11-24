@@ -4,18 +4,21 @@ import spock.lang.*
 
 class TempDirectorySpec extends Specification {
 
-	@TempDirectory File tempDir
-	@Shared @TempDirectory File sharedTempDir
+    @SuppressWarnings( 'StatelessClass' )
+	@TempDirectory         File tempDir
+
+    @SuppressWarnings( 'StatelessClass' )
+    @Shared @TempDirectory File sharedTempDir
 
 	def cleanup() {
-		assert !tempDir.exists(), "tempDir should have been deleted before cleanup"
+		assert !tempDir.exists(), 'tempDir should have been deleted before cleanup'
 	}
 
 	def cleanupSpec() {
-		assert !sharedTempDir.exists(), "sharedTempDir should have been deleted before cleanupSpec"
+		assert !sharedTempDir.exists(), 'sharedTempDir should have been deleted before cleanupSpec'
 	}
 
-	def "temp directories are created before feature method"() {
+	def 'temp directories are created before feature method'() {
 		expect:
 		tempDir != null
 		tempDir?.isDirectory()
@@ -25,21 +28,21 @@ class TempDirectorySpec extends Specification {
 		sharedTempDir?.isDirectory()
 	}
 
-	def "files can be added to temp directories"() {
+	def 'files can be added to temp directories'() {
 		expect:
-		new File(tempDir, "foo").createNewFile()
+		new File(tempDir, 'foo').createNewFile()
 
 		and:
-		new File(sharedTempDir, "bar").createNewFile()
+		new File(sharedTempDir, 'bar').createNewFile()
 	}
 
-	def "per feature temp directory is cleaned after each feature method"() {
+	def 'per feature temp directory is cleaned after each feature method'() {
 		expect:
 		tempDir.list() == [] as String[]
 	}
 
 	@Unroll
-	def "per feature temp directory is cleaned after each iteration of a data-driven feature"() {
+	def 'per feature temp directory is cleaned after each iteration of a data-driven feature'() {
 		when:
 		new File(tempDir, filename).createNewFile()
 
@@ -47,12 +50,12 @@ class TempDirectorySpec extends Specification {
 		tempDir.list() == [filename]
 
 		where:
-		filename << ["foo", "bar", "baz"]
+		filename << ['foo', 'bar', 'baz']
 	}
 
-	def "per spec temp directory is not cleaned after each feature method"() {
+	def 'per spec temp directory is not cleaned after each feature method'() {
 		expect:
-		sharedTempDir.list() == ["bar"]
+		sharedTempDir.list() == ['bar']
 	}
 
 }
