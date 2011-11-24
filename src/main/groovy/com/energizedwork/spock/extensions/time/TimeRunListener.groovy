@@ -42,8 +42,8 @@ class TimeRunListener extends AbstractRunListener
     private void checkTime( long executionTime, Time annotation, String title )
     {
         String message        = "$title execution time ($executionTime ms)"
-        assert executionTime >= annotation.min(), "$message is less then 'min' (${ annotation.min() } ms)"
-        assert executionTime <= annotation.max(), "$message is more then 'max' (${ annotation.max() } ms)"
+        assert executionTime >= annotation.min(), "$message is less than 'min' (${ annotation.min() } ms)"
+        assert executionTime <= annotation.max(), "$message is more than 'max' (${ annotation.max() } ms)"
 
         log.info( message )
     }
