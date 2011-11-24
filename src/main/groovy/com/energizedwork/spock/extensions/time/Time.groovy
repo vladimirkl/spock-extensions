@@ -6,6 +6,6 @@ package com.energizedwork.spock.extensions.time
  */
 
 @interface Time {
-//    long min() default -1
-//    long max() default -1
+    long min() default -1L
+    long max() default -1L
 }
