@@ -1,4 +1,4 @@
-package com.energizedwork.spock.extensions.time
+package com.goldin.spock.extensions.time
 
 import groovy.util.logging.Slf4j
 import org.gcontracts.annotations.Requires

@@ -1,4 +1,4 @@
-package com.energizedwork.spock.extensions.testdir
+package com.goldin.spock.extensions.testdir
 
 import org.gcontracts.annotations.Requires
 import org.spockframework.runtime.extension.AbstractAnnotationDrivenExtension

@@ -1,4 +1,4 @@
-package com.energizedwork.spock.extensions.time
+package com.goldin.spock.extensions.time
 
 import org.gcontracts.annotations.Requires
 import org.spockframework.runtime.extension.AbstractAnnotationDrivenExtension

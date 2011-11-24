@@ -1,4 +1,4 @@
-package com.energizedwork.spock.extensions.testdir
+package com.goldin.spock.extensions.testdir
 
 import java.lang.annotation.ElementType
 import java.lang.annotation.Retention

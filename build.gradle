@@ -5,7 +5,7 @@ apply plugin: 'idea'
 
 defaultTasks 'clean', 'codenarc', 'build', 'install'
 
-group = 'com.energizedwork'
+group = 'com.goldin'
 
 codenarcRuleSetFiles = [ 'codenarc.groovy' ]
 apply from: 'https://raw.github.com/evgeny-goldin/gradle-plugins/dev/src/main/groovy/CodeNarc.gradle'

@@ -1,4 +1,4 @@
-package com.energizedwork.spock.extensions.time
+package com.goldin.spock.extensions.time
 
 import org.gcontracts.annotations.Ensures
 import org.gcontracts.annotations.Requires

@@ -1,4 +1,4 @@
-package com.energizedwork.spock.extensions.time
+package com.goldin.spock.extensions.time
 
 import java.lang.annotation.ElementType
 import java.lang.annotation.Retention

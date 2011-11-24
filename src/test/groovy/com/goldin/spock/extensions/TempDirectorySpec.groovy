@@ -1,7 +1,7 @@
-package com.energizedwork.spock.extensions
+package com.goldin.spock.extensions
 
 import spock.lang.*
-import com.energizedwork.spock.extensions.tempdir.TempDirectory
+import com.goldin.spock.extensions.tempdir.TempDirectory
 
 class TempDirectorySpec extends Specification {
 

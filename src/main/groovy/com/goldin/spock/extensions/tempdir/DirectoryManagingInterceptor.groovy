@@ -1,4 +1,4 @@
-package com.energizedwork.spock.extensions.tempdir
+package com.goldin.spock.extensions.tempdir
 
 import org.spockframework.runtime.extension.AbstractMethodInterceptor
 import org.spockframework.runtime.model.FieldInfo
