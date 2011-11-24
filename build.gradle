@@ -1,20 +1,24 @@
 apply plugin: 'groovy'
 apply plugin: 'maven'
 apply plugin: 'idea'
+apply plugin: 'about'
 
 
-defaultTasks 'clean', 'codenarc', 'build', 'install'
+defaultTasks 'clean', 'codenarc', 'build', 'about', 'install'
 
-group = 'com.goldin'
-
+group                = 'com.goldin'
 codenarcRuleSetFiles = [ 'codenarc.groovy' ]
 apply from: 'https://raw.github.com/evgeny-goldin/gradle-plugins/dev/src/main/groovy/CodeNarc.gradle'
 
 
-repositories {
-	mavenRepo url: 'http://m2repo.spockframework.org/snapshots/'
-	mavenCentral()
+buildscript {
+    repositories { mavenRepo url: 'http://evgeny-goldin.org/artifactory/repo/' }
+    dependencies { classpath 'com.goldin.plugins:gradle:0.1-RC3'  }
 }
+
+
+repositories { mavenRepo url: 'http://evgeny-goldin.org/artifactory/repo/' }
+about        { dumpDependencies = true }
 
 
 dependencies {
