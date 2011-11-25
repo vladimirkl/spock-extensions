@@ -5,5 +5,5 @@ import java.lang.annotation.*
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-@ExtensionAnnotation(TempDirectoryExtension)
-@interface TempDirectory {}
+@ExtensionAnnotation(TempDirExtension)
+@interface TempDir {}

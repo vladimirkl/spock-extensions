@@ -13,4 +13,7 @@ import org.spockframework.runtime.extension.ExtensionAnnotation
 @Retention( RetentionPolicy.RUNTIME )
 @Target( ElementType.FIELD )
 @ExtensionAnnotation( TestDirExtension )
-@interface TestDir {}
+@interface TestDir {
+    String  baseDir() default 'build/test'
+    boolean clean()   default true
+}

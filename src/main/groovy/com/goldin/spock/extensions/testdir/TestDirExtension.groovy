@@ -3,7 +3,7 @@ package com.goldin.spock.extensions.testdir
 import org.gcontracts.annotations.Requires
 import org.spockframework.runtime.extension.AbstractAnnotationDrivenExtension
 import org.spockframework.runtime.model.FieldInfo
-import org.spockframework.runtime.model.SpecInfo
+
 
 /**
  * {@link @TestDir} extension.
@@ -11,15 +11,11 @@ import org.spockframework.runtime.model.SpecInfo
 class TestDirExtension extends AbstractAnnotationDrivenExtension<TestDir>
 {
     @Override
-    @Requires({ annotation })
+    @Requires({ annotation && field })
+    @SuppressWarnings([ 'UnnecessaryGetter', 'GroovyGetterCallCanBePropertyAccess' ])
     void visitFieldAnnotation ( TestDir annotation, FieldInfo field )
     {
-    }
-
-
-    @Override
-    @Requires({ spec })
-    void visitSpec ( SpecInfo spec )
-    {
+        final interceptor = new TestDirInterceptor( annotation.baseDir(), annotation.clean(), field.name )
+        field.parent.getTopSpec().setupMethod.addInterceptor( interceptor )
     }
 }

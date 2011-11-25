@@ -1,15 +1,15 @@
 package com.goldin.spock.extensions
 
 import spock.lang.*
-import com.goldin.spock.extensions.tempdir.TempDirectory
+import com.goldin.spock.extensions.tempdir.TempDir
 
-class TempDirectorySpec extends Specification {
-
-    @SuppressWarnings( 'StatelessClass' )
-	@TempDirectory         File tempDir
+class TempDirSpec extends Specification {
 
     @SuppressWarnings( 'StatelessClass' )
-    @Shared @TempDirectory File sharedTempDir
+	@TempDir         File tempDir
+
+    @SuppressWarnings( 'StatelessClass' )
+    @Shared @TempDir File sharedTempDir
 
 	def cleanup() {
 		assert !tempDir.exists(), 'tempDir should have been deleted before cleanup'

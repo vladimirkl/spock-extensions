@@ -1,26 +1,15 @@
 package com.goldin.spock.extensions.time
 
-import org.gcontracts.annotations.Ensures
-import org.gcontracts.annotations.Requires
+import groovy.transform.InheritConstructors
 import org.spockframework.runtime.extension.IMethodInvocation
 
 
 /**
  * {@link Time} extension interceptor for feature (test method).
  */
-class FeatureTimeInterceptor extends BaseTimeInterceptor
+@InheritConstructors
+class TimeFeatureInterceptor extends TimeBaseInterceptor
 {
-    private final Time annotation
-
-
-    @Requires({ annotation })
-    @Ensures({ this.annotation == annotation })
-    FeatureTimeInterceptor( Time annotation )
-    {
-        this.annotation = annotation
-    }
-
-
     @Override
     void interceptFeatureExecution ( IMethodInvocation invocation )
     {

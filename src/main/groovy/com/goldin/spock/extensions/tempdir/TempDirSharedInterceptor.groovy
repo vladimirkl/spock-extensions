@@ -6,24 +6,27 @@ import org.spockframework.runtime.model.SpecInfo
 
 
 @InheritConstructors
-class SharedTempDirectoryInterceptor extends DirectoryManagingInterceptor {
+class TempDirSharedInterceptor extends TempDirManagingInterceptor
+{
 
 	@Override
-	void interceptSetupSpecMethod(IMethodInvocation invocation) {
-		setupDirectory(invocation.target)
+	void interceptSetupSpecMethod(IMethodInvocation invocation)
+    {
+		setupDirectory( getSpec( invocation ))
 		invocation.proceed()
 	}
 
 	@Override
-	void interceptCleanupSpecMethod(IMethodInvocation invocation) {
+	void interceptCleanupSpecMethod(IMethodInvocation invocation)
+    {
 		destroyDirectory()
 		invocation.proceed()
 	}
 
 	@Override
-	void install(SpecInfo spec) {
+	void install(SpecInfo spec)
+    {
 		spec.setupSpecMethod.addInterceptor this
 		spec.cleanupSpecMethod.addInterceptor this
 	}
-
 }

@@ -1,26 +1,30 @@
 package com.goldin.spock.extensions.tempdir
 
-import org.spockframework.runtime.extension.AbstractMethodInterceptor
+import com.goldin.spock.extensions.BaseMethodInterceptor
 import org.spockframework.runtime.model.FieldInfo
 import org.spockframework.runtime.model.SpecInfo
 
 
-abstract class DirectoryManagingInterceptor extends AbstractMethodInterceptor {
+abstract class TempDirManagingInterceptor extends BaseMethodInterceptor
+{
 
 	private final FieldInfo field
 	private final File directory
 
-	protected DirectoryManagingInterceptor(FieldInfo field, File directory) {
+	protected TempDirManagingInterceptor (FieldInfo field, File directory)
+    {
 		this.field = field
 		this.directory = directory
 	}
 
-	protected void setupDirectory(target) {
+	protected void setupDirectory(target)
+    {
 		directory.mkdirs()
 		target[field.name] = directory
 	}
 
-	protected void destroyDirectory() {
+	protected void destroyDirectory()
+    {
 		directory.deleteDir()
 	}
 
