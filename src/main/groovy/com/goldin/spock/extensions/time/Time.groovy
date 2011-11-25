@@ -20,6 +20,6 @@ import org.spockframework.runtime.extension.ExtensionAnnotation
 @Target([ ElementType.TYPE, ElementType.METHOD ])
 @ExtensionAnnotation( TimeExtension )
 @interface Time {
-    long min() default 0L
-    long max() default 9223372036854775807L  // Long.MAX_VALUE
+    int min() default 0
+    int max() default 0x7fffffff // Integer.MAX_VALUE
 }

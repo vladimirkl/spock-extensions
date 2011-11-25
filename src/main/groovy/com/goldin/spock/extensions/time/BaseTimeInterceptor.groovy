@@ -30,12 +30,12 @@ abstract class BaseTimeInterceptor extends AbstractMethodInterceptor
     {
         String message = "$title execution time is $executionTime ms"
 
-        if ( executionTime < annotation.min())
+        if ( executionTime < ( long ) annotation.min())
         {
             throw new RuntimeException( "$message, it is less than 'min' specified (${ annotation.min() } ms)" )
         }
 
-        if ( executionTime > annotation.max())
+        if ( executionTime > ( long ) annotation.max())
         {
             throw new RuntimeException( "$message, it is more than 'max' specified (${ annotation.max() } ms)" )
         }
