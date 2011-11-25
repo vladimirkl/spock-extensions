@@ -4,7 +4,6 @@ import com.goldin.spock.extensions.BaseMethodInterceptor
 import org.gcontracts.annotations.Ensures
 import org.gcontracts.annotations.Requires
 import org.spockframework.runtime.extension.IMethodInvocation
-import groovy.io.FileType
 
 /**
  * {@link @TestDir} listener.
@@ -26,6 +25,36 @@ class TestDirInterceptor extends BaseMethodInterceptor
     }
 
 
+    /**
+     * Deletes directory specified recursively.
+     *
+     * @param directory directory to delete
+     * @return directory deleted
+     */
+    @Requires({ directory.directory })
+    private File delete ( File directory )
+    {
+        for ( f in directory.listFiles())
+        {
+            if ( f.file )
+            {
+                assert f.delete()
+            }
+            else if ( f.directory )
+            {
+                delete( f )
+            }
+            else
+            {
+                throw new RuntimeException( "Unknwon File instance [$f]" )
+            }
+        }
+
+        assert (( ! directory.listFiles()) && ( directory.delete()) && ( ! directory.directory ))
+        directory
+    }
+
+
     @Override
     @Requires({ invocation && baseDir && fieldName })
     void interceptSetupMethod ( IMethodInvocation invocation )
@@ -34,23 +63,20 @@ class TestDirInterceptor extends BaseMethodInterceptor
         final specInstance = getSpec( invocation )
         File  testDir      = new File( baseDir, testDirName ).canonicalFile
 
-        if ( clean )
-        {   /**
-             * Cleaning up directory if it already exists
-             */
-            if ( testDir.directory )
+        if ( testDir.directory )
+        {
+            // Cleaning directory
+            if ( clean )
             {
-                testDir.eachFileRecurse( FileType.FILES ){ File f -> assert f.file && f.delete() }
-                assert testDir.delete()
+                delete( testDir )
             }
-        }
-        else
-        {   /**
-             * Creating new directory if it already exists
-             */
-            for ( int counter = 1; testDir.directory; counter++ )
+            else
             {
-                testDir = new File( baseDir, testDirName + "_$counter" ).canonicalFile
+                // Creating new directory next to existing one
+                for ( int counter = 1; testDir.directory; counter++ )
+                {
+                    testDir = new File( baseDir, testDirName + "_$counter" ).canonicalFile
+                }
             }
         }
 
