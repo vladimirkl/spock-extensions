@@ -16,7 +16,11 @@ class TimeExtension extends AbstractAnnotationDrivenExtension<Time>
     private final Map<String, Time> featureAnnotations = [:]  // Mapping of features annotated to their @Time annotation
 
     @Requires({ annotation })
-    private Time check( Time annotation ) { assert annotation.min() < annotation.max(); annotation }
+    private Time check( Time annotation )
+    {
+        assert ( annotation.min() >= 0 ) && ( annotation.max() > annotation.min())
+        annotation
+    }
 
 
     @Override
