@@ -47,8 +47,8 @@ location on disk.
 
 `@Time` annotation is used per-Specification or per-feature (test method). It allows to time-limit execution of the whole Spec or specific test method with two attributes:
 
-* `min` (int) - minimal execution time in milliseconds, should be zero or more
-* `max` (int) - maximal execution time in milliseconds, should be more than `min`
+* `min` (int) - minimal execution time in milliseconds, should be zero or more.
+* `max` (int) - maximal execution time in milliseconds, should be more than `min`.
 
 Note, that both attributes are `int` (covering 24-days execution) and not `long` although they deal with milliseconds. This is to avoid warnings around `0L` constants and avoid appending `L` to numbers as well.
 
