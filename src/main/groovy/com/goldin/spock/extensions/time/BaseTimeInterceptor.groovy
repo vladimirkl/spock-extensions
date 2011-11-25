@@ -3,7 +3,7 @@ package com.goldin.spock.extensions.time
 import groovy.util.logging.Slf4j
 import org.gcontracts.annotations.Requires
 import org.spockframework.runtime.extension.AbstractMethodInterceptor
-
+import org.spockframework.runtime.extension.IMethodInvocation
 
 /**
  * Base class for all {@code @Time} interceptors.
@@ -28,18 +28,33 @@ abstract class BaseTimeInterceptor extends AbstractMethodInterceptor
     @Requires({ ( executionTime > -1 ) && annotation && title })
     protected final void checkTime( long executionTime, Time annotation, String title )
     {
-        String message = "$title execution time is [$executionTime] ms"
+        String message = "$title execution time is $executionTime ms"
 
         if ( executionTime < annotation.min())
         {
-            throw new RuntimeException( "$message, it is less than 'min' (${ annotation.min() } ms)" )
+            throw new RuntimeException( "$message, it is less than 'min' specified (${ annotation.min() } ms)" )
         }
 
         if ( executionTime > annotation.max())
         {
-            throw new RuntimeException( "$message, it is more than 'max' (${ annotation.max() } ms)" )
+            throw new RuntimeException( "$message, it is more than 'max' specified (${ annotation.max() } ms)" )
         }
 
         log.info( message )
+    }
+
+
+    /**
+     *
+     * @param invocation
+     * @param annotation
+     * @param title
+     */
+    @Requires({ invocation && annotation && title })
+    protected final void intercept( IMethodInvocation invocation, Time annotation, String title )
+    {
+        def startTime = now()
+        invocation.proceed()
+        checkTime( now() - startTime, annotation, title )
     }
 }

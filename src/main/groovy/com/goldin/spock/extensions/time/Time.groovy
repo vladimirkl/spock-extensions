@@ -15,10 +15,11 @@ import org.spockframework.runtime.extension.ExtensionAnnotation
  * http://ldaley.com/post/971946675/annotation-driven-extensions-with-spock?d21dafe8?986aa398
  */
 
+// noinspection GroovyOctalInteger
 @Retention( RetentionPolicy.RUNTIME )
 @Target([ ElementType.TYPE, ElementType.METHOD ])
 @ExtensionAnnotation( TimeExtension )
 @interface Time {
-    long min() default -9223372036854775808L  // Long.MIN_VALUE
-    long max() default  9223372036854775807L  // Long.MAX_VALUE
+    long min() default 0L
+    long max() default 9223372036854775807L  // Long.MAX_VALUE
 }

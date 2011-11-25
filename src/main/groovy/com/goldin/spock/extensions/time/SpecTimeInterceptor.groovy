@@ -22,12 +22,8 @@ class SpecTimeInterceptor extends BaseTimeInterceptor
 
 
     @Override
-    @Requires({ invocation })
     void interceptSpecExecution ( IMethodInvocation invocation )
     {
-        def name      = invocation.spec.name
-        def startTime = now()
-        invocation.proceed()
-        checkTime( now() - startTime, annotation, "Spec [$name]" )
+        intercept( invocation, annotation, "Spec [${ invocation.spec.name }]" )
     }
 }
