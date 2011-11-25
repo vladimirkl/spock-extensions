@@ -45,10 +45,11 @@ abstract class BaseTimeInterceptor extends AbstractMethodInterceptor
 
 
     /**
+     * Intercepts invocation and applies annotation execution time validations.
      *
-     * @param invocation
-     * @param annotation
-     * @param title
+     * @param invocation invocation to intercept
+     * @param annotation time annotation
+     * @param title      entity title (spec or feature)
      */
     @Requires({ invocation && annotation && title })
     protected final void intercept( IMethodInvocation invocation, Time annotation, String title )
