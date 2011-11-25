@@ -47,24 +47,25 @@ location on disk.
 
 `@Time` annotation is used per-Specification or per-feature (test method). It allows to time-limit execution of the whole Spec or specific test method with two attributes:
 
-* `min` - minimal execution time in milliseconds, should be zero or more
-* `max` - maximal execution time in milliseconds, should be more than `min`
+* `min` (int) - minimal execution time in milliseconds, should be zero or more
+* `max` (int) - maximal execution time in milliseconds, should be more than `min`
+
+Note, that both attributes are `int` (covering 24-days execution) and not `long` although they deal with milliseconds. This is to avoid warnings around `0L` constants and avoid appending `L` to numbers as well.
+
+### Example (taken from [this file](https://github.com/evgeny-goldin/gcommons/blob/a4abda41f5977c742b202d6d22a326699e6da7bf/src/test/groovy/com/goldin/gcommons/specs/GeneralBeanSpec.groovy))
 
 
-### Example (taken from [this file](https://github.com/evgeny-goldin/gcommons/blob/cb42537388b5d04fabe18a18f235b5c763df8010/src/test/groovy/com/goldin/gcommons/specs/GeneralBeanSpec.groovy))
-
-
-    @Time( min = 500L, max = 2000L )
+    @Time( min = 500, max = 2000 )
     class GeneralBeanSpec extends BaseSpec
     {
-        @Time( min = 500L, max = 2000L )
+        @Time( min = 500, max = 2000 )
         def 'gc-87: GeneralBean.executeWithResult()'()
         {
             ...
         }
 
 
-        @Time( min = 0L, max = 100L )
+        @Time( min = 0, max = 100 )
         def 'check match()'()
         {
             ...
