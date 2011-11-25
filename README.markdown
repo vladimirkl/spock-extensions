@@ -71,3 +71,53 @@ Note, that both attributes are `int` (covering 24-days execution) and not `long`
             ...
         }
     }
+
+
+## @TestDir
+
+
+`@TestDir` annotation creates empty test directory for each Spock feature (test method).
+
+It has two attributes
+
+* `baseDir` (String) - `"build/test"` by default.
+   Directory where all test directories are created.
+* `clean`  (boolean) - `true` by default.
+   If test directory already exists whether it should be cleaned up (`true` value) or another one should be created next to it (`false` value).
+
+For each feature test directory created at `"<baseDir>/<spec FQCN>/<feature name>"` where all non-alphabetic characters in feature name are replaced by `"-"`.
+
+### Example (taken from [this file](https://github.com/evgeny-goldin/gcommons/blob/87484d54f0065f7e73008d4eabf1ea507b0922e4/src/test/groovy/com/goldin/gcommons/specs/FileBeanSpec.groovy))
+
+
+    class FileBeanSpec extends BaseSpec
+    {
+        @TestDir File testDir
+
+        def 'Check pack() and unpack() operations' ()
+        {
+            // build/test/com.goldin.gcommons.specs.FileBeanSpec/Check-pack-and-unpack-operations/
+            assert testDir.directory && ( ! testDir.listFiles())
+
+            given:
+            def zipUnpack1 = new File( testDir, 'zip-1' )
+            def zipUnpack2 = new File( testDir, 'zip-2' )
+            ...
+        }
+
+
+        def 'Check "fullpath" and "prefix" pack() options'()
+        {
+            // build/test/com.goldin.gcommons.specs.FileBeanSpec/Check-fullpath-and-prefix-pack-options/
+            assert testDir.directory && ( ! testDir.listFiles())
+
+            given:
+            def zipFile    = testResource(      "${testArchive.key}.zip" )
+            def zipUnpack  = new File( testDir, 'zip' )
+            def extFile1   = new File( testDir, "${testArchive.key}-1.$extension" )
+            def extFile2   = new File( testDir, "${testArchive.key}-2.$extension" )
+            ...
+        }
+
+        ...
+    }
