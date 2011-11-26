@@ -13,14 +13,16 @@ import org.spockframework.runtime.extension.IMethodInvocation
 @Slf4j
 abstract class TimeBaseInterceptor extends BaseMethodInterceptor
 {
-    protected final Time annotation
+    protected final long min
+    protected final long max
 
 
-    @Requires({ annotation })
-    @Ensures({ this.annotation == annotation })
-    protected TimeBaseInterceptor ( Time annotation )
+    @Requires({ ( min >= 0 ) && ( max > min ) })
+    @Ensures({ ( this.min == min ) && ( this.max == max ) })
+    protected TimeBaseInterceptor ( int min, int max )
     {
-        this.annotation = annotation
+        this.min = ( long ) min
+        this.max = ( long ) max
     }
 
 
@@ -35,22 +37,21 @@ abstract class TimeBaseInterceptor extends BaseMethodInterceptor
      * Verifies execution time specified doesn't violate limits imposed by {@code @Time} annotation.
      *
      * @param executionTime execution time in milliseconds
-     * @param annotation    annotation instance
      * @param title         execution entity title
      */
-    @Requires({ ( executionTime > -1 ) && annotation && title })
-    protected final void checkTime( long executionTime, Time annotation, String title )
+    @Requires({ ( executionTime > -1 ) && title })
+    protected final void checkTime( long executionTime, String title )
     {
-        String message = "$title execution time is $executionTime ms"
+        final message = "$title execution time is $executionTime ms"
 
-        if ( executionTime < ( long ) annotation.min())
+        if ( executionTime < min )
         {
-            throw new RuntimeException( "$message, it is less than 'min' specified (${ annotation.min() } ms)" )
+            throw new RuntimeException( "$message, it is less than $min ms specified as 'min'" )
         }
 
-        if ( executionTime > ( long ) annotation.max())
+        if ( executionTime > max )
         {
-            throw new RuntimeException( "$message, it is more than 'max' specified (${ annotation.max() } ms)" )
+            throw new RuntimeException( "$message, it is more than $max ms specified as 'max'" )
         }
 
         log.info( message )
@@ -58,17 +59,16 @@ abstract class TimeBaseInterceptor extends BaseMethodInterceptor
 
 
     /**
-     * Intercepts invocation and applies annotation execution time validations.
+     * Intercepts invocation and applies time limits on it.
      *
      * @param invocation invocation to intercept
-     * @param annotation time annotation
      * @param title      entity title (spec or feature)
      */
-    @Requires({ invocation && annotation && title })
-    protected final void intercept( IMethodInvocation invocation, Time annotation, String title )
+    @Requires({ invocation && title })
+    protected final void intercept( IMethodInvocation invocation, String title )
     {
-        def startTime = now()
+        final startTime = now()
         invocation.proceed()
-        checkTime( now() - startTime, annotation, title )
+        checkTime( now() - startTime, title )
     }
 }

@@ -1,5 +1,6 @@
 package com.goldin.spock.extensions
 
+import org.gcontracts.annotations.Ensures
 import org.gcontracts.annotations.Requires
 import org.spockframework.runtime.extension.AbstractMethodInterceptor
 import org.spockframework.runtime.extension.IMethodInvocation
@@ -16,10 +17,9 @@ abstract class BaseMethodInterceptor extends AbstractMethodInterceptor
     * @return invocation target
     */
     @Requires({ invocation })
+    @Ensures({ result instanceof Specification })
     protected final Specification getSpec( IMethodInvocation invocation )
     {
-        final spec = invocation.target.with { delegate instanceof Specification ? delegate : invocation.sharedInstance }
-        assert spec instanceof Specification
-        spec
+        ( Specification ) invocation.target.with { delegate instanceof Specification ? delegate : invocation.sharedInstance }
     }
 }

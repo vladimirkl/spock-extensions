@@ -13,6 +13,6 @@ class TimeFeatureInterceptor extends TimeBaseInterceptor
     @Override
     void interceptFeatureExecution ( IMethodInvocation invocation )
     {
-        intercept( invocation, annotation, "Feature [${ invocation.feature.name }]" )
+        intercept( invocation, "Feature [${ invocation.feature.name }]" )
     }
 }

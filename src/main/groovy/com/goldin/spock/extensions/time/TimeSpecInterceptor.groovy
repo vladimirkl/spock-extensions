@@ -13,6 +13,6 @@ class TimeSpecInterceptor extends TimeBaseInterceptor
     @Override
     void interceptSpecExecution ( IMethodInvocation invocation )
     {
-        intercept( invocation, annotation, "Spec [${ invocation.spec.name }]" )
+        intercept( invocation, "Spec [${ invocation.spec.name }]" )
     }
 }

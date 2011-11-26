@@ -15,7 +15,6 @@ import org.spockframework.runtime.extension.ExtensionAnnotation
  * http://ldaley.com/post/971946675/annotation-driven-extensions-with-spock?d21dafe8?986aa398
  */
 
-// noinspection GroovyOctalInteger
 @Retention( RetentionPolicy.RUNTIME )
 @Target([ ElementType.TYPE, ElementType.METHOD ])
 @ExtensionAnnotation( TimeExtension )

@@ -44,12 +44,12 @@ class TimeExtension extends AbstractAnnotationDrivenExtension<Time>
     {
         if ( specAnnotation )
         {
-            spec.addInterceptor( new TimeSpecInterceptor( specAnnotation ))
+            spec.addInterceptor( new TimeSpecInterceptor( specAnnotation.min(), specAnnotation.max()))
         }
 
         featureAnnotations.each {
             String featureName, Time annotation ->
-            spec.features.find { it.name == featureName }?.addInterceptor( new TimeFeatureInterceptor( annotation ))
+            spec.features.find { it.name == featureName }?.addInterceptor( new TimeFeatureInterceptor( annotation.min(), annotation.max()))
         }
     }
 }
