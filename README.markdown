@@ -87,12 +87,6 @@ locally for the test method.*
             'C:/'           | 'C:/111/222/oiu/3.txt' | ( windows ? '' : '/' ) + '111/222/oiu/3.txt'
             'C:/'           | 'C:/111/222/oiu/3.txt' | ( windows ? '' : '/' ) + '111/222/oiu/3.txt'
             'C:/1/2/'       | 'C:/1/2/'              | '/'
-            '1/2'           | '1/2/3'                | '/3'
-            '1/2/'          | '1/2/3'                | '/3'
-            '1'             | '1/2/3/rrr.txt'        | '/2/3/rrr.txt'
-            '1/2'           | '1/2/3/rrr.txt'        | '/3/rrr.txt'
-            '1/2/3'         | '1/2/3/rrr.txt'        | '/rrr.txt'
-            '1/2/3/rrr.txt' | '1/2/3/rrr.txt'        | '/'
         }
     }
 
@@ -104,15 +98,8 @@ locally for the test method.*
         {
             expect:
             // GCommons.general().match()
-            match( '/a/b/c/d', '/a/b/c/d' )
-            match( '/a/b/c/d', '**/b/c/d' )
-            match( '/a/b/c/d', '**/c/d' )
-            match( '/a/b/c/d', '**/d' )
-            match( '/a/b/c/d', '**/d' )
             match( '/a/b/c/d', '**' )
             match( '/a/b/c/d/1.txt', '**/*.*' )
-            match( '/a/b/c/d/1.txt', '**/1.txt' )
-            match( '/a/b/c/d/1.txt', '**/*.txt' )
           ! match( '/a/b/c/d', '**/*.*' )
           ! match( '/a/b/c/d/1.txt', '**/*.xml'  )
         }
