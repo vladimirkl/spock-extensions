@@ -70,7 +70,7 @@ Internally, `@With` is not implemented using `with{ .. }` but MOP's [`methodMiss
 
 
     @With({ GCommons.file() })
-    class FileBeanSpec extends BaseSpec
+    class FileBeanSpec extends Specification
     {
         def 'check relative path'( String dir, String file, String path )
         {
@@ -88,7 +88,7 @@ Internally, `@With` is not implemented using `with{ .. }` but MOP's [`methodMiss
     }
 
 
-    class GeneralBeanSpec extends BaseSpec
+    class GeneralBeanSpec extends Specification
     {
         @With({ GCommons.general() })
         def 'check match()'()
@@ -118,7 +118,7 @@ Note, that both attributes are `int` (covering 24-days execution) and not `long`
 
 
     @Time( min = 500, max = 2000 )
-    class GeneralBeanSpec extends BaseSpec
+    class GeneralBeanSpec extends Specification
     {
         @Time( min = 500, max = 2000 )
         def 'gc-87: GeneralBean.executeWithResult()'()
@@ -155,7 +155,7 @@ For example for feature `'Check pack() and unpack() operations'` in `FileBeanSpe
 ### Example (taken from [this file](https://github.com/evgeny-goldin/gcommons/blob/87484d54f0065f7e73008d4eabf1ea507b0922e4/src/test/groovy/com/goldin/gcommons/specs/FileBeanSpec.groovy))
 
 
-    class FileBeanSpec extends BaseSpec
+    class FileBeanSpec extends Specification
     {
         @TestDir File testDir
 
