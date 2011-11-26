@@ -42,7 +42,7 @@ class WithSpec extends Specification
     }
 
 
-    @Time( min = 500, max = 5000 )
+    @Time( min = 100, max = 5000 )
     @With({ 'http://gradle.org/'.toURL() })
     def 'URL test method' () {
 
