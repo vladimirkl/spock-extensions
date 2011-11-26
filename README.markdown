@@ -1,57 +1,108 @@
-
-
 # Spock Extensions
 
-## @TempDirectory
+## Maven:
 
-**Forked from `http://github.com/robfletcher/spock-extensions`.**
-
-Used on a `File` property of a spec class this annotation will cause
-a temporary directory to be created and injected before each feature
-method is run and destroyed afterwards. If the field is `@Shared` the
-directory is only destroyed after all feature methods have run. You
-can have as many such fields as you like in a single spec, each will
-be generated with a unique name.
-
-Temporary directories are created inside `java.io.tmpdir`.
-
-This is useful when testing a class that reads from or writes to a
-location on disk.
+    <dependency>
+        <groupId>com.goldin</groupId>
+        <artifactId>spock-extensions</artifactId>
+        <version>0.1</version>
+        <scope>test</scope>
+    </dependency>
 
 
-### Example
+## Gradle:
 
-	class MySpec extends Specification {
+    testCompile 'com.goldin:spock-extensions:0.1'
 
-		@TempDirectory File myTempDir
+## Repo:
 
-		def diskStore = new DiskStore()
+    http://evgeny-goldin.org/artifactory/repo
 
-		def "disk store writes bytes to a file"() {
-			given:
-			diskStore.baseDir = myTempDir
-			diskStore.targetFilename = "foo"
+## Issue Tracker:
 
-			when:
-			diskStore << "some text"
+    http://evgeny-goldin.org/youtrack/issues/sp
 
-			then:
-			new File(myTempDir, "foo").text == "some text"
-		}
 
-	}
+## @With
+
+`@With` extension can be applied per-Specification (globally) or per-feature (locally). It behaves as if it wraps the entire spec
+or certain feature with a `with{ .. }` block using objects specified as delegates. As is the case with [`with`](http://groovy.codehaus.org/groovy-jdk/java/lang/Object.html#with%28groovy.lang.Closure%29)
+it saves on referencing the same object over and over or creating temporal variables *"just to hold this result for a second"*.
+
+It accepts a `Closure` expression returning either a single object or `List` of objects:
+
+    @With({ true })
+    @With({ 'string' })
+    @With({ 'http://gradle.org/'.toURL() })
+
+    @With({ [ 'string', [ '1' : 3 ], [ true ] ] })
+    @With({ [ 'http://gradle.org/'.toURL(), 'http://groovy.codehaus.org/' ] })
+
+All non-null objects returned by the `Closure` become `with{ .. }`-like delegates for execution of all `Specification` features
+(if `@With` is applied globally) or execution of a certain feature (if applied locally). Internally, it is not implemented using
+`with{ .. }` but MOP's [`methodMissing` and `propertyMissing`](http://groovy.codehaus.org/Using+methodMissing+and+propertyMissing).
+
+### [Unit Tests](https://github.com/evgeny-goldin/spock-extensions/tree/9ab732830a9fea4976050d90517dac3d6d6be5f3/src/test/groovy/com/goldin/spock/extensions)
+### Examples (taken from [those](https://github.com/evgeny-goldin/gcommons/blob/90e6e100339c642a7d7b1d7ff33dd29cc58d653c/src/test/groovy/com/goldin/gcommons/specs/FileBeanSpec.groovy) [two](https://github.com/evgeny-goldin/gcommons/blob/90e6e100339c642a7d7b1d7ff33dd29cc58d653c/src/test/groovy/com/goldin/gcommons/specs/GeneralBeanSpec.groovy) files)
+
+    @With({ GCommons.file() })
+    class FileBeanSpec extends BaseSpec
+    {
+        def 'check relative path'( String dir, String file, String path )
+        {
+            expect:
+            // GCommons.file().relativePath()
+            relativePath( new File( dir ), new File( file )) == path
+
+            where:
+            dir             | file                   | path
+            'C:/111/'       | 'C:/111/222/sss/3.txt' | '/222/sss/3.txt'
+            'C:/'           | 'C:/111/222/oiu/3.txt' | ( windows ? '' : '/' ) + '111/222/oiu/3.txt'
+            'C:/'           | 'C:/111/222/oiu/3.txt' | ( windows ? '' : '/' ) + '111/222/oiu/3.txt'
+            'C:/1/2/'       | 'C:/1/2/'              | '/'
+            '1/2'           | '1/2/3'                | '/3'
+            '1/2/'          | '1/2/3'                | '/3'
+            '1'             | '1/2/3/rrr.txt'        | '/2/3/rrr.txt'
+            '1/2'           | '1/2/3/rrr.txt'        | '/3/rrr.txt'
+            '1/2/3'         | '1/2/3/rrr.txt'        | '/rrr.txt'
+            '1/2/3/rrr.txt' | '1/2/3/rrr.txt'        | '/'
+        }
+    }
+
+
+    class GeneralBeanSpec extends BaseSpec
+    {
+        @With({ GCommons.general() })
+        def 'check match()'()
+        {
+            expect:
+            // GCommons.general().match()
+            match( '/a/b/c/d', '/a/b/c/d' )
+            match( '/a/b/c/d', '**/b/c/d' )
+            match( '/a/b/c/d', '**/c/d' )
+            match( '/a/b/c/d', '**/d' )
+            match( '/a/b/c/d', '**/d' )
+            match( '/a/b/c/d', '**' )
+            match( '/a/b/c/d/1.txt', '**/*.*' )
+            match( '/a/b/c/d/1.txt', '**/1.txt' )
+            match( '/a/b/c/d/1.txt', '**/*.txt' )
+          ! match( '/a/b/c/d', '**/*.*' )
+          ! match( '/a/b/c/d/1.txt', '**/*.xml'  )
+        }
+    }
 
 
 ## @Time
 
 
-`@Time` annotation is used per-Specification or per-feature (test method). It allows to time-limit execution of the whole Spec or specific test method with two attributes:
+`@Time` extension can be applied per-Specification (globally) or per-feature (locally). It allows to time-limit execution of the whole Spec or specific test method with two attributes:
 
 * `min` (int) - minimal execution time in milliseconds, should be zero or more.
 * `max` (int) - maximal execution time in milliseconds, should be more than `min`.
 
 Note, that both attributes are `int` (covering 24-days execution) and not `long` although they deal with milliseconds. This is to avoid warnings around `0L` constants and avoid appending `L` to numbers as well.
 
+### [Unit Tests](https://github.com/evgeny-goldin/spock-extensions/tree/9ab732830a9fea4976050d90517dac3d6d6be5f3/src/test/groovy/com/goldin/spock/extensions)
 ### Example (taken from [this file](https://github.com/evgeny-goldin/gcommons/blob/a4abda41f5977c742b202d6d22a326699e6da7bf/src/test/groovy/com/goldin/gcommons/specs/GeneralBeanSpec.groovy))
 
 
@@ -76,7 +127,7 @@ Note, that both attributes are `int` (covering 24-days execution) and not `long`
 ## @TestDir
 
 
-`@TestDir` annotation creates empty test directory for each Spock feature (test method).
+`@TestDir` extension can only be applied to `Specification` instance field. It creates empty test directory for each Spock feature (test method).
 
 It has two attributes
 
@@ -87,6 +138,7 @@ It has two attributes
 
 For each feature test directory created at `"<baseDir>/<spec FQCN>/<feature name>"` where all non-alphabetic characters in feature name are replaced by `"-"`.
 
+### [Unit Tests](https://github.com/evgeny-goldin/spock-extensions/tree/9ab732830a9fea4976050d90517dac3d6d6be5f3/src/test/groovy/com/goldin/spock/extensions)
 ### Example (taken from [this file](https://github.com/evgeny-goldin/gcommons/blob/87484d54f0065f7e73008d4eabf1ea507b0922e4/src/test/groovy/com/goldin/gcommons/specs/FileBeanSpec.groovy))
 
 
@@ -102,7 +154,6 @@ For each feature test directory created at `"<baseDir>/<spec FQCN>/<feature name
             given:
             def zipUnpack1 = new File( testDir, 'zip-1' )
             def zipUnpack2 = new File( testDir, 'zip-2' )
-            ...
         }
 
 
@@ -116,8 +167,45 @@ For each feature test directory created at `"<baseDir>/<spec FQCN>/<feature name
             def zipUnpack  = new File( testDir, 'zip' )
             def extFile1   = new File( testDir, "${testArchive.key}-1.$extension" )
             def extFile2   = new File( testDir, "${testArchive.key}-2.$extension" )
-            ...
         }
-
-        ...
     }
+
+
+## @TempDirectory
+
+**Originally forked from `http://github.com/robfletcher/spock-extensions`.**
+
+Used on a `File` property of a spec class this annotation will cause
+a temporary directory to be created and injected before each feature
+method is run and destroyed afterwards. If the field is `@Shared` the
+directory is only destroyed after all feature methods have run. You
+can have as many such fields as you like in a single spec, each will
+be generated with a unique name.
+
+Temporary directories are created inside `java.io.tmpdir`.
+
+This is useful when testing a class that reads from or writes to a
+location on disk.
+
+### [Unit Tests](https://github.com/evgeny-goldin/spock-extensions/tree/9ab732830a9fea4976050d90517dac3d6d6be5f3/src/test/groovy/com/goldin/spock/extensions)
+### Example
+
+	class MySpec extends Specification {
+
+		@TempDirectory File myTempDir
+
+		def diskStore = new DiskStore()
+
+		def "disk store writes bytes to a file"() {
+			given:
+			diskStore.baseDir = myTempDir
+			diskStore.targetFilename = "foo"
+
+			when:
+			diskStore << "some text"
+
+			then:
+			new File(myTempDir, "foo").text == "some text"
+		}
+
+	}
