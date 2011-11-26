@@ -9,7 +9,7 @@ import spock.lang.Specification
 /**
  * {@code @With} extension test spec.
  */
-@Time( min = 0, max = 5000 )
+@Time( min = 0, max = 10000 )
 @With({ [ 'http://gradle.org/'.toURL(), 'http://groovy.codehaus.org/' ] })
 class WithSpec2 extends Specification
 {
@@ -43,7 +43,7 @@ class WithSpec2 extends Specification
     }
 
 
-    @Time( min = 100, max = 3000 )
+    @Time( min = 100, max = 5000 )
     def 'URL test method' () {
 
         when:
@@ -54,7 +54,7 @@ class WithSpec2 extends Specification
     }
 
 
-    @Time( min = 100, max = 3000 )
+    @Time( min = 100, max = 5000 )
     @With({ [ null ] })
     def 'null test method' () {
 
