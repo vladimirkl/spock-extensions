@@ -27,8 +27,6 @@ class WithExtension extends AbstractAnnotationDrivenExtension<With>
     {
         Closure closure = ( Closure ) annotation.value().newInstance( '1', '1' ) // Dummy values, see http://goo.gl/mR3r4
         Object  objects = closure()
-
-        assert ( objects != null ), '@With closure returned null'
         ( objects instanceof List ? objects : [ objects ] )
     }
 

@@ -7,10 +7,10 @@ import spock.lang.Specification
 /**
  * {@code @TestDir} extension test spec.
  */
-class TestDirSpec2 extends Specification
+class TestDirSpecClean extends Specification
 {
     @SuppressWarnings( 'StatelessClass' )
-    @TestDir( clean = false ) File testDir
+    @TestDir File testDir
 
 
     def 'test method()'() {
@@ -19,6 +19,7 @@ class TestDirSpec2 extends Specification
         true
         testDir.directory
         ! testDir.listFiles()
+        ! ( testDir.path.matches( /^.+_\d+$/ ))
     }
 
 
@@ -28,7 +29,7 @@ class TestDirSpec2 extends Specification
         x + y == z
         testDir.directory
         ! testDir.listFiles()
-        ( x == 0 ) || ( testDir.path.matches( /^.+_\d+$/ ))
+        ! ( testDir.path.matches( /^.+_\d+$/ ))
 
         where:
         x | y | z
@@ -46,7 +47,7 @@ class TestDirSpec2 extends Specification
         x + y == z
         testDir.directory
         ! testDir.listFiles()
-        ( x == 0 ) || ( testDir.path.matches( /^.+_\d+$/ ))
+        ! ( testDir.path.matches( /^.+_\d+$/ ))
 
         new File( testDir, '1' ).mkdirs()
         new File( testDir, '1/2' ).mkdirs()

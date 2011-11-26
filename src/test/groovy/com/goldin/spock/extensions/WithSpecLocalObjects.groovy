@@ -6,11 +6,12 @@ import com.goldin.spock.extensions.testdir.TestDir
 import com.goldin.spock.extensions.time.Time
 import spock.lang.FailsWith
 
+
 /**
  * {@code @With} extension test spec.
  */
 @Time( min = 0, max = 5000 )
-class WithSpec extends Specification
+class WithSpecLocalObjects extends Specification
 {
     @SuppressWarnings( 'StatelessClass' )
     @TestDir File testDir
@@ -63,5 +64,55 @@ class WithSpec extends Specification
         chars
         size()
         size() == 27
+    }
+
+
+    @Time( min = 0, max = 100 )
+    @With({ null })
+    @FailsWith( value = AssertionError, reason = 'Only null objects specified to @With' )
+    def 'single null test method' () {
+
+        expect:
+        bytes
+        chars
+        size()
+        size() == 27
+    }
+
+
+    @Time( min = 0, max = 100 )
+    @With({ [ null ] })
+    @FailsWith( value = AssertionError, reason = 'Only null objects specified to @With' )
+    def 'single null test method - 2' () {
+
+        expect:
+        bytes
+        chars
+        size()
+        size() == 27
+    }
+
+
+    @Time( min = 0, max = 100 )
+    @With({ true })
+    def 'Boolean true test method' () {
+
+        expect:
+        value
+        value == true
+        booleanValue()
+        booleanValue() == true
+    }
+
+
+    @Time( min = 0, max = 100 )
+    @With({ false })
+    def 'Boolean false test method' () {
+
+        expect:
+      ! value
+        value == false
+      ! booleanValue()
+        booleanValue() == false
     }
 }

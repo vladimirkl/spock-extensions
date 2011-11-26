@@ -3,13 +3,14 @@ package com.goldin.spock.extensions
 import com.goldin.spock.extensions.testdir.TestDir
 import spock.lang.Specification
 
+
 /**
  * {@code @TestDir} extension test spec.
  */
-class TestDirSpec extends Specification
+class TestDirSpecNoClean extends Specification
 {
     @SuppressWarnings( 'StatelessClass' )
-    @TestDir File testDir
+    @TestDir( clean = false ) File testDir
 
 
     def 'test method()'() {
@@ -18,7 +19,6 @@ class TestDirSpec extends Specification
         true
         testDir.directory
         ! testDir.listFiles()
-        ! ( testDir.path.matches( /^.+_\d+$/ ))
     }
 
 
@@ -28,7 +28,7 @@ class TestDirSpec extends Specification
         x + y == z
         testDir.directory
         ! testDir.listFiles()
-        ! ( testDir.path.matches( /^.+_\d+$/ ))
+        ( x == 0 ) || ( testDir.path.matches( /^.+_\d+$/ ))
 
         where:
         x | y | z
@@ -46,7 +46,7 @@ class TestDirSpec extends Specification
         x + y == z
         testDir.directory
         ! testDir.listFiles()
-        ! ( testDir.path.matches( /^.+_\d+$/ ))
+        ( x == 0 ) || ( testDir.path.matches( /^.+_\d+$/ ))
 
         new File( testDir, '1' ).mkdirs()
         new File( testDir, '1/2' ).mkdirs()

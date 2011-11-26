@@ -6,12 +6,13 @@ import com.goldin.spock.extensions.with.With
 import spock.lang.FailsWith
 import spock.lang.Specification
 
+
 /**
  * {@code @With} extension test spec.
  */
 @Time( min = 0, max = 10000 )
 @With({ [ 'http://gradle.org/'.toURL(), 'http://groovy.codehaus.org/' ] })
-class WithSpec2 extends Specification
+class WithSpecGlobalObjects extends Specification
 {
     @SuppressWarnings( 'StatelessClass' )
     @TestDir File testDir
@@ -73,5 +74,53 @@ class WithSpec2 extends Specification
         chars.size() == 27
         size()
         size()       == 27
+    }
+
+
+    @Time( min = 0, max = 200 )
+    @With({ null })
+//    Doesn't fail due to global objects
+//    @FailsWith( value = AssertionError, reason = 'Only null objects specified to @With' )
+    def 'single null test method' () {
+
+        expect:
+        size()
+        size() == 27
+    }
+
+
+    @Time( min = 0, max = 200 )
+    @With({ [ null ] })
+//    Doesn't fail due to global objects
+//    @FailsWith( value = AssertionError, reason = 'Only null objects specified to @With' )
+    def 'single null test method - 2' () {
+
+        expect:
+        size()
+        size() == 27
+    }
+
+
+    @Time( min = 0, max = 100 )
+    @With({ true })
+    def 'Boolean true test method' () {
+
+        expect:
+        value
+        value == true
+        booleanValue()
+        booleanValue() == true
+    }
+
+
+    @Time( min = 0, max = 100 )
+    @With({ false })
+    def 'Boolean false test method' () {
+
+        expect:
+      ! value
+        value == false
+      ! booleanValue()
+        booleanValue() == false
     }
 }

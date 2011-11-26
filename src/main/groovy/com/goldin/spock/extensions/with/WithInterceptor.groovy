@@ -18,7 +18,7 @@ class WithInterceptor extends BaseMethodInterceptor
     @Ensures({ this.metaObjects.size() <= objects.size() })
     WithInterceptor ( List<Object> objects )
     {
-        this.metaObjects = objects.findAll { it != null }.collect { new WithObjectMeta( it ) }
+        this.metaObjects = objects.findAll{ it != null }.collect { new WithObjectMeta( it ) }
     }
 
 
@@ -38,6 +38,11 @@ class WithInterceptor extends BaseMethodInterceptor
 
             assert methodName
 
+            /**
+             * Postponing null validation to execution phase so that this failure can be checked with @FailsWith
+             */
+            assert this.metaObjects, 'Only null objects specified to @With'
+
             Object  result    = null
             boolean hasResult = false
 
@@ -54,6 +59,11 @@ class WithInterceptor extends BaseMethodInterceptor
             String propertyName ->
 
             assert propertyName
+
+            /**
+             * Postponing null validation to execution phase so that this failure can be checked with @FailsWith
+             */
+            assert this.metaObjects, 'Only null objects specified to @With'
 
             Object  result    = null
             boolean hasResult = false
