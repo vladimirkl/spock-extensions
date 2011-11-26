@@ -25,7 +25,12 @@ class WithExtension extends AbstractAnnotationDrivenExtension<With>
     @Ensures({ result })
     private Collection<?> objects( With annotation )
     {
-        Closure closure = ( Closure ) annotation.value().newInstance( '1', '1' ) // Dummy values, see http://goo.gl/mR3r4
+       /**
+        * ( '1', '1' ) are dummy values, see
+        * http://goo.gl/mR3r4 and
+        * http://evgeny-goldin.org/youtrack/issue/sp-1
+        */
+        Closure closure = ( Closure ) annotation.value().newInstance( '1', '1' )
         Object  objects = closure()
         ( objects instanceof List ? objects : [ objects ] )
     }
