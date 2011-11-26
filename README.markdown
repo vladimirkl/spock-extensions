@@ -35,15 +35,42 @@ It accepts a `Closure` expression returning either a single object or `List` of 
     @With({ 'string' })
     @With({ 'http://gradle.org/'.toURL() })
 
-    @With({ [ 'string', [ '1' : 3 ], [ true ] ] })
+    @With({ [ 'string', [ 1 : 3 ], [ true ] ] })
     @With({ [ 'http://gradle.org/'.toURL(), 'http://groovy.codehaus.org/' ] })
 
 All non-null objects returned by the `Closure` become `with{ .. }`-like delegates for execution of all `Specification` features
 (if `@With` is applied globally) or execution of a certain feature (if applied locally). Internally, it is not implemented using
 `with{ .. }` but MOP's [`methodMissing` and `propertyMissing`](http://groovy.codehaus.org/Using+methodMissing+and+propertyMissing).
 
+
+*If extension is applied both globally and locally then two sets of objects are combined, giving priority to those specified
+locally for the test method.*
+
+
 ### [Unit Tests](https://github.com/evgeny-goldin/spock-extensions/tree/9ab732830a9fea4976050d90517dac3d6d6be5f3/src/test/groovy/com/goldin/spock/extensions)
 ### Examples (taken from [those](https://github.com/evgeny-goldin/gcommons/blob/90e6e100339c642a7d7b1d7ff33dd29cc58d653c/src/test/groovy/com/goldin/gcommons/specs/FileBeanSpec.groovy) [two](https://github.com/evgeny-goldin/gcommons/blob/90e6e100339c642a7d7b1d7ff33dd29cc58d653c/src/test/groovy/com/goldin/gcommons/specs/GeneralBeanSpec.groovy) files)
+
+    @With({ [ 'string', [ 1 : 2 ], [ true ] ] })
+    def 'regular test method' () {
+
+        expect:
+        size() == 6       // 'string'.size()
+        containsKey( 1 )  // [ 1 : 2 ].containsKey( 1 )
+        first()           // [ true ].first()
+    }
+
+
+    @With({ 'http://gradle.org/'.toURL() })
+    def 'URL test method' () {
+
+        when:
+        // 'http://gradle.org/'.toURL().text
+        new File( testDir, 'data.txt' ).write( text )
+
+        then:
+        new File( testDir, 'data.txt' ).text.size() > ( 9 * 1024 )
+    }
+
 
     @With({ GCommons.file() })
     class FileBeanSpec extends BaseSpec
@@ -127,7 +154,8 @@ Note, that both attributes are `int` (covering 24-days execution) and not `long`
 ## @TestDir
 
 
-`@TestDir` extension can only be applied to `Specification` instance field. It creates empty test directory for each Spock feature (test method).
+`@TestDir` extension can only be applied to `Specification` instance field. It creates empty test directory for each Spock feature (test method) and assigns
+its value to the field, assuming it is of `File` type.
 
 It has two attributes
 
@@ -137,6 +165,7 @@ It has two attributes
    If test directory already exists whether it should be cleaned up (`true` value) or another one should be created next to it (`false` value).
 
 For each feature test directory created at `"<baseDir>/<spec FQCN>/<feature name>"` where all non-alphabetic characters in feature name are replaced by `"-"`.
+For example for feature `'Check pack() and unpack() operations'` in `FileBeanSpec` it will be `build/test/com.goldin.gcommons.specs.FileBeanSpec/Check-pack-and-unpack-operations/`.
 
 ### [Unit Tests](https://github.com/evgeny-goldin/spock-extensions/tree/9ab732830a9fea4976050d90517dac3d6d6be5f3/src/test/groovy/com/goldin/spock/extensions)
 ### Example (taken from [this file](https://github.com/evgeny-goldin/gcommons/blob/87484d54f0065f7e73008d4eabf1ea507b0922e4/src/test/groovy/com/goldin/gcommons/specs/FileBeanSpec.groovy))
