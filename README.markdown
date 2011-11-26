@@ -187,7 +187,7 @@ For example for feature `'Check pack() and unpack() operations'` in `FileBeanSpe
     }
 
 
-## @TempDirectory
+## @TempDir
 
 **Originally forked from `http://github.com/robfletcher/spock-extensions`.**
 
@@ -208,7 +208,7 @@ location on disk.
 
     class MySpec extends Specification {
 
-        @TempDirectory File myTempDir
+        @TempDir File myTempDir
 
         def diskStore = new DiskStore()
 
