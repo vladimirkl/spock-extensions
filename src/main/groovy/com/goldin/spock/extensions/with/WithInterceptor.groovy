@@ -28,6 +28,11 @@ class WithInterceptor extends BaseMethodInterceptor
     {
         def specMeta = getSpec( invocation ).class.metaClass
 
+        /**
+         * Before every feature invocation both "methodMissing" and "propertyMissing" are redefined
+         * to work with objects specific to this feature.
+         */
+
         specMeta.methodMissing = {
             String methodName, Object args ->
 
