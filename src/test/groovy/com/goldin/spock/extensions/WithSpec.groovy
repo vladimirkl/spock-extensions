@@ -16,7 +16,7 @@ class WithSpec extends Specification
     @TestDir File testDir
 
 
-    @Time( min = 10, max = 300 )
+    @Time( min = 0, max = 300 )
     @With({ [ 'string', [ '1' : 2 ], [ true ] ] })
     def 'regular test method' () {
 
@@ -28,7 +28,7 @@ class WithSpec extends Specification
     }
 
 
-    @Time( min = 10, max = 300 )
+    @Time( min = 0, max = 300 )
     @With({ [ 'string', [ '1' : 3 ], [ true ] ] })
     @FailsWith( value = AssertionError, reason = 'No @With object responds to method [aaaa]' )
     def 'failing test method' () {
