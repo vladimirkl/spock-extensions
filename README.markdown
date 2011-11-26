@@ -39,15 +39,12 @@ It accepts a `Closure` expression returning either a single object or `List` of 
     @With({ [ 'http://gradle.org/'.toURL(), 'http://groovy.codehaus.org/' ] })
 
 All non-null objects returned by the `Closure` become `with{ .. }`-like delegates for execution of all `Specification` features
-(if `@With` is applied globally) or execution of a certain feature (if applied locally). Internally, it is not implemented using
-`with{ .. }` but MOP's [`methodMissing` and `propertyMissing`](http://groovy.codehaus.org/Using+methodMissing+and+propertyMissing).
+(if `@With` is applied globally) or execution of a certain feature (if applied locally). If extension is applied both globally
+and locally then two sets of objects are combined, giving priority to those specified locally for the test method.
 
+Internally, `@With`is not implemented using `with{ .. }` but MOP's [`methodMissing`](http://groovy.codehaus.org/Using+methodMissing+and+propertyMissing) and [`propertyMissing`](http://groovy.codehaus.org/Using+methodMissing+and+propertyMissing).
 
-*If extension is applied both globally and locally then two sets of objects are combined, giving priority to those specified
-locally for the test method.*
-
-
-### [Unit Tests](https://github.com/evgeny-goldin/spock-extensions/tree/9ab732830a9fea4976050d90517dac3d6d6be5f3/src/test/groovy/com/goldin/spock/extensions)
+### [Test Specifications](https://github.com/evgeny-goldin/spock-extensions/tree/master/src/test/groovy/com/goldin/spock/extensions)
 ### Examples (taken from [those](https://github.com/evgeny-goldin/gcommons/blob/90e6e100339c642a7d7b1d7ff33dd29cc58d653c/src/test/groovy/com/goldin/gcommons/specs/FileBeanSpec.groovy) [two](https://github.com/evgeny-goldin/gcommons/blob/90e6e100339c642a7d7b1d7ff33dd29cc58d653c/src/test/groovy/com/goldin/gcommons/specs/GeneralBeanSpec.groovy) files)
 
     @With({ [ 'string', [ 1 : 2 ], [ true ] ] })
@@ -109,14 +106,14 @@ locally for the test method.*
 ## @Time
 
 
-`@Time` extension can be applied per-Specification (globally) or per-feature (locally). It allows to time-limit execution of the whole Spec or specific test method with two attributes:
+`@Time` extension can be applied per-Specification (globally) or per-feature (locally). It allows to time-limit execution of the whole spec or specific test method with two attributes:
 
 * `min` (int) - minimal execution time in milliseconds, should be zero or more.
 * `max` (int) - maximal execution time in milliseconds, should be more than `min`.
 
 Note, that both attributes are `int` (covering 24-days execution) and not `long` although they deal with milliseconds. This is to avoid warnings around `0L` constants and avoid appending `L` to numbers as well.
 
-### [Unit Tests](https://github.com/evgeny-goldin/spock-extensions/tree/9ab732830a9fea4976050d90517dac3d6d6be5f3/src/test/groovy/com/goldin/spock/extensions)
+### [Test Specifications](https://github.com/evgeny-goldin/spock-extensions/tree/master/src/test/groovy/com/goldin/spock/extensions)
 ### Example (taken from [this file](https://github.com/evgeny-goldin/gcommons/blob/a4abda41f5977c742b202d6d22a326699e6da7bf/src/test/groovy/com/goldin/gcommons/specs/GeneralBeanSpec.groovy))
 
 
@@ -154,7 +151,7 @@ It has two attributes
 For each feature test directory created at `"<baseDir>/<spec FQCN>/<feature name>"` where all non-alphabetic characters in feature name are replaced by `"-"`.
 For example for feature `'Check pack() and unpack() operations'` in `FileBeanSpec` it will be `build/test/com.goldin.gcommons.specs.FileBeanSpec/Check-pack-and-unpack-operations/`.
 
-### [Unit Tests](https://github.com/evgeny-goldin/spock-extensions/tree/9ab732830a9fea4976050d90517dac3d6d6be5f3/src/test/groovy/com/goldin/spock/extensions)
+### [Test Specifications](https://github.com/evgeny-goldin/spock-extensions/tree/master/src/test/groovy/com/goldin/spock/extensions)
 ### Example (taken from [this file](https://github.com/evgeny-goldin/gcommons/blob/87484d54f0065f7e73008d4eabf1ea507b0922e4/src/test/groovy/com/goldin/gcommons/specs/FileBeanSpec.groovy))
 
 
@@ -203,7 +200,7 @@ Temporary directories are created inside `java.io.tmpdir`.
 This is useful when testing a class that reads from or writes to a
 location on disk.
 
-### [Unit Tests](https://github.com/evgeny-goldin/spock-extensions/tree/9ab732830a9fea4976050d90517dac3d6d6be5f3/src/test/groovy/com/goldin/spock/extensions)
+### [Test Specifications](https://github.com/evgeny-goldin/spock-extensions/tree/master/src/test/groovy/com/goldin/spock/extensions)
 ### Example
 
 	class MySpec extends Specification {
