@@ -42,7 +42,7 @@ All non-null objects returned by the `Closure` become `with{ .. }`-like delegate
 (if `@With` is applied globally) or execution of a certain feature (if applied locally). If extension is applied both globally
 and locally then two sets of objects are combined, giving priority to those specified locally for the test method.
 
-Internally, `@With`is not implemented using `with{ .. }` but MOP's [`methodMissing`](http://groovy.codehaus.org/Using+methodMissing+and+propertyMissing) and [`propertyMissing`](http://groovy.codehaus.org/Using+methodMissing+and+propertyMissing).
+Internally, `@With` is not implemented using `with{ .. }` but MOP's [`methodMissing`](http://groovy.codehaus.org/Using+methodMissing+and+propertyMissing) and [`propertyMissing`](http://groovy.codehaus.org/Using+methodMissing+and+propertyMissing).
 
 ### [Test Specifications](https://github.com/evgeny-goldin/spock-extensions/tree/master/src/test/groovy/com/goldin/spock/extensions)
 ### Examples (taken from [those](https://github.com/evgeny-goldin/gcommons/blob/90e6e100339c642a7d7b1d7ff33dd29cc58d653c/src/test/groovy/com/goldin/gcommons/specs/FileBeanSpec.groovy) [two](https://github.com/evgeny-goldin/gcommons/blob/90e6e100339c642a7d7b1d7ff33dd29cc58d653c/src/test/groovy/com/goldin/gcommons/specs/GeneralBeanSpec.groovy) files)
