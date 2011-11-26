@@ -11,7 +11,7 @@ import org.spockframework.runtime.extension.ExtensionAnnotation
  * Extension wrapping test method by a number of with{ .. } blocks using objects specified.
  */
 @Retention( RetentionPolicy.RUNTIME )
-@Target( ElementType.METHOD )
+@Target([ ElementType.TYPE, ElementType.METHOD ])
 @ExtensionAnnotation( WithExtension )
 @interface With {
     Class value()
