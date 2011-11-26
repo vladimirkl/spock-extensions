@@ -9,24 +9,24 @@ import org.spockframework.runtime.model.SpecInfo
 class TempDirInterceptor extends TempDirManagingInterceptor
 {
 
-	@Override
-	void interceptSetupMethod(IMethodInvocation invocation)
+    @Override
+    void interceptSetupMethod(IMethodInvocation invocation)
     {
-		setupDirectory( getSpec( invocation ))
-		invocation.proceed()
-	}
+        setupDirectory( getSpec( invocation ))
+        invocation.proceed()
+    }
 
-	@Override
-	void interceptCleanupMethod(IMethodInvocation invocation)
+    @Override
+    void interceptCleanupMethod(IMethodInvocation invocation)
     {
-		destroyDirectory()
-		invocation.proceed()
-	}
+        destroyDirectory()
+        invocation.proceed()
+    }
 
-	@Override
-	void install(SpecInfo spec)
+    @Override
+    void install(SpecInfo spec)
     {
-		spec.setupMethod.addInterceptor this
-		spec.cleanupMethod.addInterceptor this
-	}
+        spec.setupMethod.addInterceptor this
+        spec.cleanupMethod.addInterceptor this
+    }
 }

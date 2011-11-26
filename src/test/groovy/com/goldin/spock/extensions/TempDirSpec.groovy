@@ -6,57 +6,57 @@ import com.goldin.spock.extensions.tempdir.TempDir
 class TempDirSpec extends Specification {
 
     @SuppressWarnings( 'StatelessClass' )
-	@TempDir         File tempDir
+    @TempDir         File tempDir
 
     @SuppressWarnings( 'StatelessClass' )
     @Shared @TempDir File sharedTempDir
 
-	def cleanup() {
-		assert !tempDir.exists(), 'tempDir should have been deleted before cleanup'
-	}
+    def cleanup() {
+        assert !tempDir.exists(), 'tempDir should have been deleted before cleanup'
+    }
 
-	def cleanupSpec() {
-		assert !sharedTempDir.exists(), 'sharedTempDir should have been deleted before cleanupSpec'
-	}
+    def cleanupSpec() {
+        assert !sharedTempDir.exists(), 'sharedTempDir should have been deleted before cleanupSpec'
+    }
 
-	def 'temp directories are created before feature method'() {
-		expect:
-		tempDir != null
-		tempDir?.isDirectory()
+    def 'temp directories are created before feature method'() {
+        expect:
+        tempDir != null
+        tempDir?.isDirectory()
 
-		and:
-		sharedTempDir != null
-		sharedTempDir?.isDirectory()
-	}
+        and:
+        sharedTempDir != null
+        sharedTempDir?.isDirectory()
+    }
 
-	def 'files can be added to temp directories'() {
-		expect:
-		new File(tempDir, 'foo').createNewFile()
+    def 'files can be added to temp directories'() {
+        expect:
+        new File(tempDir, 'foo').createNewFile()
 
-		and:
-		new File(sharedTempDir, 'bar').createNewFile()
-	}
+        and:
+        new File(sharedTempDir, 'bar').createNewFile()
+    }
 
-	def 'per feature temp directory is cleaned after each feature method'() {
-		expect:
-		tempDir.list() == [] as String[]
-	}
+    def 'per feature temp directory is cleaned after each feature method'() {
+        expect:
+        tempDir.list() == [] as String[]
+    }
 
-	@Unroll
-	def 'per feature temp directory is cleaned after each iteration of a data-driven feature'() {
-		when:
-		new File(tempDir, filename).createNewFile()
+    @Unroll
+    def 'per feature temp directory is cleaned after each iteration of a data-driven feature'() {
+        when:
+        new File(tempDir, filename).createNewFile()
 
-		then:
-		tempDir.list() == [filename]
+        then:
+        tempDir.list() == [filename]
 
-		where:
-		filename << ['foo', 'bar', 'baz']
-	}
+        where:
+        filename << ['foo', 'bar', 'baz']
+    }
 
-	def 'per spec temp directory is not cleaned after each feature method'() {
-		expect:
-		sharedTempDir.list() == ['bar']
-	}
+    def 'per spec temp directory is not cleaned after each feature method'() {
+        expect:
+        sharedTempDir.list() == ['bar']
+    }
 
 }
