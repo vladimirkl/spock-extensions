@@ -19,26 +19,26 @@ class WithSpecGlobalObjects extends Specification
 
 
     @Time( min = 0, max = 300 )
-    @With({ [ 'string', [ '1' : 2 ], [ true ] ] })
+    @With({ [ 'string', [ 1 : 2 ], [ true ] ] })
     def 'regular test method' () {
 
         expect:
         true
         size() == 6
-        containsKey( '1' )
+        containsKey( 1 )
         first()
     }
 
 
     @Time( min = 0, max = 300 )
-    @With({ [ 'string', [ '1' : 3 ], [ true ] ] })
+    @With({ [ 'string', [ 1 : 3 ], [ true ] ] })
     @FailsWith( value = AssertionError, reason = 'No @With object responds to method [aaaa]' )
     def 'failing test method' () {
 
         expect:
         true
         size() == 6
-        containsKey( '1' )
+        containsKey( 1 )
         first()
         aaaa()
     }
