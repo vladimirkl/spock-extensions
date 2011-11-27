@@ -111,10 +111,14 @@ which means it works equally well for methods and properties.
 
 `@Time` extension can be applied per-Specification (globally) or per-feature (locally). It allows to time-limit execution of the whole spec or specific test method with two attributes:
 
-* `min` (int) - minimal execution time in milliseconds, should be zero or more.
-* `max` (int) - maximal execution time in milliseconds, should be more than `min`.
+* `min` (int) - `0` by default, minimal execution time in milliseconds, should be zero or more.
+* `max` (int) - `Integer.MAX_VALUE` by default, maximal execution time in milliseconds, should be more than `min`.
 
 Note, that both attributes are `int` (covering 24-days execution) and not `long` although they deal with milliseconds. This is to avoid warnings around `0L` constants and avoid appending `L` to numbers as well.
+Default values allow to display an execution time without applying any limits:
+
+![@Time log](https://dl-web.dropbox.com/get/Photos/GitHub/Time%20Extension.png?w=9add99b9)
+
 
 ### [Test Specifications](https://github.com/evgeny-goldin/spock-extensions/tree/master/src/test/groovy/com/goldin/spock/extensions)
 ### Example (taken from [this file](https://github.com/evgeny-goldin/gcommons/blob/a4abda41f5977c742b202d6d22a326699e6da7bf/src/test/groovy/com/goldin/gcommons/specs/GeneralBeanSpec.groovy))
