@@ -117,7 +117,7 @@ which means it works equally well for methods and properties.
 Note, that both attributes are `int` (covering 24-days execution) and not `long` although they deal with milliseconds. This is to avoid warnings around `0L` constants and avoid appending `L` to numbers as well.
 Default values allow to display an execution time without applying any limits:
 
-![@Time log](https://dl-web.dropbox.com/get/Photos/GitHub/Time%20Extension.png?w=9add99b9)
+![@Time log](https://photos-5.dropbox.com/i/xl/CnHIMxflNuIf8MNV-ple4iYkfmIGRTsjYgDzbus2CQM/4820835/1322492400/c30fecf/Time%20Extension.png)
 
 
 ### [Test Specifications](https://github.com/evgeny-goldin/spock-extensions/tree/master/src/test/groovy/com/goldin/spock/extensions)
