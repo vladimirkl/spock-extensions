@@ -3,16 +3,16 @@
 ## Maven:
 
     <dependency>
-        <groupId>com.goldin</groupId>
+        <groupId>com.github.goldin</groupId>
         <artifactId>spock-extensions</artifactId>
-        <version>0.1</version>
+        <version>0.1.1</version>
         <scope>test</scope>
     </dependency>
 
 
 ## Gradle:
 
-    testCompile 'com.goldin:spock-extensions:0.1'
+    testCompile 'com.github.goldin:spock-extensions:0.1.1'
 
 ## Repo:
 
@@ -156,7 +156,7 @@ It has two attributes
    If test directory already exists whether it should be cleaned up (`true` value) or another one should be created next to it (`false` value).
 
 For each feature test directory created at `"<baseDir>/<spec FQCN>/<feature name>"` where all non-alphabetic characters in feature name are replaced by `"-"`.
-For example for feature `'Check pack() and unpack() operations'` in `FileBeanSpec` it will be `build/test/com.goldin.gcommons.specs.FileBeanSpec/Check-pack-and-unpack-operations/`.
+For example for feature `'Check pack() and unpack() operations'` in `FileBeanSpec` it will be `build/test/com.github.goldin.gcommons.specs.FileBeanSpec/Check-pack-and-unpack-operations/`.
 
 ### [Test Specifications](https://github.com/evgeny-goldin/spock-extensions/tree/master/src/test/groovy/com/goldin/spock/extensions)
 ### Example (taken from [this file](https://github.com/evgeny-goldin/gcommons/blob/87484d54f0065f7e73008d4eabf1ea507b0922e4/src/test/groovy/com/goldin/gcommons/specs/FileBeanSpec.groovy))
@@ -168,7 +168,7 @@ For example for feature `'Check pack() and unpack() operations'` in `FileBeanSpe
 
         def 'Check pack() and unpack() operations' ()
         {
-            // build/test/com.goldin.gcommons.specs.FileBeanSpec/Check-pack-and-unpack-operations/
+            // build/test/com.github.goldin.gcommons.specs.FileBeanSpec/Check-pack-and-unpack-operations/
             assert testDir.directory && ( ! testDir.listFiles())
 
             given:
@@ -179,7 +179,7 @@ For example for feature `'Check pack() and unpack() operations'` in `FileBeanSpe
 
         def 'Check "fullpath" and "prefix" pack() options'()
         {
-            // build/test/com.goldin.gcommons.specs.FileBeanSpec/Check-fullpath-and-prefix-pack-options/
+            // build/test/com.github.goldin.gcommons.specs.FileBeanSpec/Check-fullpath-and-prefix-pack-options/
             assert testDir.directory && ( ! testDir.listFiles())
 
             given:

@@ -6,24 +6,24 @@ apply plugin: 'about'
 
 defaultTasks 'clean', 'codenarc', 'build', 'about', 'install'
 
-group                = 'com.goldin'
+group                = 'com.github.goldin'
 codenarcRuleSetFiles = [ 'codenarc.groovy' ]
 apply from: 'https://raw.github.com/evgeny-goldin/gradle-plugins/dev/src/main/groovy/CodeNarc.gradle'
 
 
 buildscript {
-    repositories { mavenRepo url: 'http://evgeny-goldin.org/artifactory/repo/' }
-    dependencies { classpath 'com.goldin.plugins:gradle:0.1-RC3'  }
+    repositories { mavenRepo url: 'http://evgenyg.artifactoryonline.com/evgenyg/' }
+    dependencies { classpath 'com.github.goldin.plugins:gradle:0.1.2'  }
 }
 
 
-repositories { mavenRepo url: 'http://evgeny-goldin.org/artifactory/repo/' }
+repositories { mavenRepo url: 'http://evgenyg.artifactoryonline.com/evgenyg/' }
 about        { dumpDependencies = true }
 
 
 dependencies {
-    groovy      'org.codehaus.groovy:groovy:1.8.2' // GContracts '1.2.4' only works with Groovy 1.8.2
-    compile   ( 'org.spockframework:spock-core:0.6-groovy-1.8-25112011' ) { exclude group: 'org.codehaus.groovy' }
+    groovy      'org.codehaus.groovy:groovy:1.8.6'
+    compile   ( 'org.spockframework:spock-core:0.6-groovy-1.8' ) { exclude group: 'org.codehaus.groovy' }
     compile     'org.gcontracts:gcontracts-core:1.2.4',
                 'org.slf4j:slf4j-api:1.6.4'
     testRuntime 'ch.qos.logback:logback-classic:1.0.0'
@@ -31,7 +31,7 @@ dependencies {
 
 
 idea.project {
-    jdkName = '1.6.0_29'
+    jdkName = '1.6.0_31'
     ipr.withXml { provider -> provider.node.component.find { it.@name == 'VcsDirectoryMappings' }.mapping.@vcs = 'Git' }
 }
 
@@ -42,11 +42,11 @@ idea.module {
 }
 
 
-task wrapper( type: Wrapper ) { gradleVersion = '1.0-milestone-6' }
+task wrapper( type: Wrapper ) { gradleVersion = '1.0-milestone-9' }
 
 
 /**
- * Adding sources artifact
+ * Adding sources
  */
 task sourcesJar( type: Jar, dependsOn: classes ) {
     classifier = 'sources'
