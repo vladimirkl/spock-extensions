@@ -5,7 +5,8 @@ ruleset {
 
     ruleset( 'http://codenarc.sourceforge.net/StarterRuleSet-AllRulesByCategory.groovy.txt' ) {
 
-        DuplicateNumberLiteral   ( enabled : false )
+        UnnecessaryPackageReference ( enabled : false )
+        DuplicateNumberLiteral      ( enabled : false )
         DuplicateStringLiteral   ( enabled : false )
         DuplicateListLiteral     ( enabled : false )
         BracesForClass           ( enabled : false )

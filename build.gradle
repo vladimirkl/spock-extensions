@@ -6,25 +6,29 @@ apply plugin: 'about'
 
 defaultTasks 'clean', 'codenarc', 'build', 'about', 'install'
 
-group                = 'com.github.goldin'
-codenarcRuleSetFiles = [ 'codenarc.groovy' ]
+
+group                    = 'com.github.goldin'
+ext.codenarcRuleSetFiles = [ 'codenarc.groovy' ]
 apply from: 'https://raw.github.com/evgeny-goldin/gradle-plugins/dev/src/main/groovy/CodeNarc.gradle'
 
 
 buildscript {
-    repositories { mavenRepo url: 'http://evgenyg.artifactoryonline.com/evgenyg/' }
-    dependencies { classpath 'com.github.goldin.plugins:gradle:0.1.2'  }
+    repositories {
+//        maven   { url "${ System.properties[ 'user.home' ] }/.m2/repository" }
+        mavenRepo url: 'http://evgenyg.artifactoryonline.com/evgenyg/repo/'
+    }
+    dependencies { classpath "com.github.goldin.plugins:gradle:0.1.2" }
 }
 
 
-repositories { mavenRepo url: 'http://evgenyg.artifactoryonline.com/evgenyg/' }
+repositories { mavenRepo url: 'http://evgenyg.artifactoryonline.com/evgenyg/repo/' }
 about        { dumpDependencies = true }
 
 
 dependencies {
     groovy      'org.codehaus.groovy:groovy:1.8.6'
     compile   ( 'org.spockframework:spock-core:0.6-groovy-1.8' ) { exclude group: 'org.codehaus.groovy' }
-    compile     'org.gcontracts:gcontracts-core:1.2.4',
+    compile     'org.gcontracts:gcontracts-core:1.2.5',
                 'org.slf4j:slf4j-api:1.6.4'
     testRuntime 'ch.qos.logback:logback-classic:1.0.0'
 }
