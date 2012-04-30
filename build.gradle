@@ -35,7 +35,7 @@ dependencies {
 
 
 idea.project {
-    jdkName = '1.6.0_31'
+    jdkName = '1.6'
     ipr.withXml { provider -> provider.node.component.find { it.@name == 'VcsDirectoryMappings' }.mapping.@vcs = 'Git' }
 }
 
@@ -46,7 +46,7 @@ idea.module {
 }
 
 
-task wrapper( type: Wrapper ) { gradleVersion = '1.0-milestone-9' }
+task wrapper( type: Wrapper ) { gradleVersion = '1.0-rc-3' }
 
 
 /**
