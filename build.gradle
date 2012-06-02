@@ -52,11 +52,17 @@ idea.module {
 task wrapper( type: Wrapper ) { gradleVersion = '1.0-rc-3' }
 
 
-/**
- * Adding sources
- */
 task sourcesJar( type: Jar, dependsOn: classes ) {
     classifier = 'sources'
     from sourceSets.main.allSource
 }
-artifacts { archives sourcesJar }
+
+task groovydocJar( type: Jar, dependsOn: groovydoc ) {
+     classifier = 'javadoc'
+     from groovydoc.destinationDir
+}
+
+artifacts {
+     archives sourcesJar
+     archives groovydocJar
+}
