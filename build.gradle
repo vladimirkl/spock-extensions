@@ -56,12 +56,16 @@ idea.module {
 task wrapper( type: Wrapper ) { gradleVersion = '1.0-rc-3' }
 
 
+/**
+ * http://wiki.jfrog.org/confluence/display/RTF/Gradle+Artifactory+Plugin
+ */
 artifactory {
     contextUrl = 'http://evgenyg.artifactoryonline.com/evgenyg/'
     publish {
         repository {
             repoKey  = 'libs-releases-local'
             username = 'deployer'
+            password = ''
         }
     }
 }
