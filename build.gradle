@@ -2,7 +2,6 @@ apply plugin: 'groovy'
 apply plugin: 'maven'
 apply plugin: 'idea'
 apply plugin: 'about'
-apply plugin: 'artifactory'
 apply from:   'file:groovydoc.gradle'
 apply from:   'file:mavenCentral.gradle'
 
@@ -18,12 +17,9 @@ buildscript {
     repositories {
 //        maven   { url "${ System.properties[ 'user.home' ] }/.m2/repository" }
         mavenRepo url: 'http://evgenyg.artifactoryonline.com/evgenyg/repo/'
-        mavenRepo url: 'http://repo.jfrog.org/artifactory/gradle-plugins/'
     }
-    // http://wiki.jfrog.org/confluence/display/RTF/Gradle+Artifactory+Plugin
     dependencies {
-        classpath 'com.github.goldin.plugins:gradle:0.1.2',
-                  'org.jfrog.buildinfo:build-info-extractor-gradle:2.0.14'
+        classpath 'com.github.goldin.plugins:gradle:0.1.2'
     }
 }
 
@@ -55,20 +51,6 @@ idea.module {
 
 task wrapper( type: Wrapper ) { gradleVersion = '1.0-rc-3' }
 
-
-/**
- * http://wiki.jfrog.org/confluence/display/RTF/Gradle+Artifactory+Plugin
- */
-artifactory {
-    contextUrl = 'http://evgenyg.artifactoryonline.com/evgenyg/'
-    publish {
-        repository {
-            repoKey  = 'libs-releases-local'
-            username = 'deployer'
-            password = System.getProperty( 'deployerPassword' )
-        }
-    }
-}
 
 /**
  * Adding sources
