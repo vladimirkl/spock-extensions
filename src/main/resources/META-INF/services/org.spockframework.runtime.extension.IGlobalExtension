@@ -1,0 +1,2 @@
+com.github.goldin.spock.extensions.log.LogExtension
+com.github.goldin.spock.extensions.profiler.ProfilerExtension

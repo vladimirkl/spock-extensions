@@ -30,7 +30,7 @@ dependencies {
     compile   ( 'org.spockframework:spock-core:0.6-groovy-1.8' ) { exclude group: 'org.codehaus.groovy' }
     compile     'org.gcontracts:gcontracts-core:1.2.5',
                 'org.slf4j:slf4j-api:1.6.4'
-    testRuntime 'ch.qos.logback:logback-classic:1.0.3'
+    testRuntime 'ch.qos.logback:logback-classic:1.0.4'
 }
 
 

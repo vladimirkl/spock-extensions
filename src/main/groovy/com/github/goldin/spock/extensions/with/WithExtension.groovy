@@ -11,8 +11,8 @@ import org.spockframework.runtime.model.SpecInfo
  */
 class WithExtension extends AbstractAnnotationDrivenExtension<With>
 {
-    private final List<Object>              specObjects    = []                     // Spec-scoped @With objects
-    private final Map<String, List<Object>> featureObjects = [:].withDefault { [] } // Mapping of feature name to its @With objects
+    private final List<Object>              specObjects    = []  // Spec-scoped @With objects
+    private final Map<String, List<Object>> featureObjects = [:] // Mapping of feature name to its @With objects
 
 
     /**
@@ -53,18 +53,17 @@ class WithExtension extends AbstractAnnotationDrivenExtension<With>
     @Requires({ spec })
     void visitSpec ( SpecInfo spec )
     {
-        if ( specObjects )
+        for ( featureInfo in spec.features )
         {
-            spec.features.each {
-                FeatureInfo info ->
-                info.addInterceptor( new WithInterceptor(( List ) featureObjects[ info.name ] + specObjects ))
+            final delegateObjects = featureObjects[ featureInfo.name ]
+
+            if ( delegateObjects )
+            {
+                featureInfo.addInterceptor( new WithInterceptor(( List ) delegateObjects + specObjects ))
             }
-        }
-        else
-        {
-            featureObjects.each {
-                String featureName, List<Object> featureObjects ->
-                spec.features.find { it.name == featureName }?.addInterceptor( new WithInterceptor( featureObjects ))
+            else if ( specObjects )
+            {
+                featureInfo.addInterceptor( new WithInterceptor( specObjects ))
             }
         }
     }
