@@ -1,0 +1,80 @@
+
+/**
+ * Deploying to Maven Central from Gradle:
+ * http://pinboard.in/u:evgenyg/t:gradle%20sonatype/
+ * http://blog.andresteingress.com/2011/01/14/using-gradle-in-practice/
+ * http://jedicoder.blogspot.de/2011/11/automated-gradle-project-deployment-to.html
+ */
+
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+
+buildscript {
+    repositories { mavenCentral() }
+    dependencies { classpath 'de.huxhorn.gradle:de.huxhorn.gradle.pgp-plugin:0.0.4' }
+}
+
+
+signing { sign configurations.archives }
+
+
+uploadArchives {
+  repositories.mavenDeployer {
+    configuration = configurations.archives
+    beforeDeployment { signing.signPom( it ) }
+
+    repository( url: 'https://oss.sonatype.org/service/local/staging/deploy/maven2/' ) {
+      authentication( userName: sonatypeUser, password: sonatypePassword )
+    }
+
+    pom.project {
+      name           'Spock Extensions'
+      packaging      'jar'
+      description    'Spock Extensions'
+      url            'http://evgeny-goldin.com/wiki/Spock-extensions'
+      inceptionYear  '2011'
+
+      scm {
+        url                 'git@github.com:evgeny-goldin/spock-extensions.git'
+        connection          'scm:git:git@github.com:evgeny-goldin/spock-extensions.git'
+        developerConnection 'scm:git:git@github.com:evgeny-goldin/spock-extensions.git'
+      }
+
+      licenses {
+        license {
+          name 'Apache License'
+          comments """
+                /**
+Copyright 2012 Goldin Evgeny (http://evgeny-goldin.com/)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+                **/
+          """
+          distribution 'repo'
+        }
+      }
+
+      developers {
+        developer {
+          id    'evgenyg'
+          name  'Evgeny Goldin'
+          email 'evgenyg@gmail.com'
+          url   'http://evgeny-goldin.com'
+          roles { role 'Developer' }
+          timezone '+1'
+        }
+      }
+    }
+  }
+}

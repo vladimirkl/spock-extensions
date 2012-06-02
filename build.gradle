@@ -3,7 +3,7 @@ apply plugin: 'maven'
 apply plugin: 'idea'
 apply plugin: 'about'
 apply from:   'file:groovydoc.gradle'
-
+apply from:   'file:mavenCentral.gradle'
 
 defaultTasks 'clean', 'codenarc', 'build', 'about', 'install'
 
