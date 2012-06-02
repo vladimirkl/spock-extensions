@@ -26,9 +26,7 @@ class WithExtension extends AbstractAnnotationDrivenExtension<With>
     private Collection<?> objects( With annotation )
     {
        /**
-        * ( '1', '1' ) are dummy values, see
-        * http://goo.gl/mR3r4 and
-        * http://evgeny-goldin.org/youtrack/issue/sp-1
+        * ( '1', '1' ) are dummy values, see http://goo.gl/VnJZP
         */
         Closure closure = ( Closure ) annotation.value().newInstance( '1', '1' )
         Object  objects = closure()
