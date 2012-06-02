@@ -2,8 +2,9 @@ package com.github.goldin.spock.extensions.profiler
 
 import org.spockframework.runtime.model.NodeInfo
 
+
 /**
- *
+ * Sortable {@link NodeInfo} container.
  */
 class NodeData implements Comparable<NodeData>
 {
