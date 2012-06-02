@@ -65,7 +65,7 @@ artifactory {
         repository {
             repoKey  = 'libs-releases-local'
             username = 'deployer'
-            password = ''
+            password = System.getProperty( 'deployerPassword' )
         }
     }
 }
