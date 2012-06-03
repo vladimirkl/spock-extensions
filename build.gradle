@@ -66,3 +66,8 @@ artifacts {
      archives sourcesJar
      archives groovydocJar
 }
+
+test.afterSuite {
+    final file = new File( 'profiler.txt' )
+    if (( ! it.parent ) && ( file.file )){ println( file.text )}
+}

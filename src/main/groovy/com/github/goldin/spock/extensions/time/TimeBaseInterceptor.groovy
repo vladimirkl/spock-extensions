@@ -43,17 +43,8 @@ abstract class TimeBaseInterceptor extends BaseMethodInterceptor
     protected final void checkTime( long executionTime, String title )
     {
         final message = "$title execution time is $executionTime ms"
-
-        if ( executionTime < min )
-        {
-            throw new RuntimeException( "$message, it is less than $min ms specified as 'min'" )
-        }
-
-        if ( executionTime > max )
-        {
-            throw new RuntimeException( "$message, it is more than $max ms specified as 'max'" )
-        }
-
+        assert ( executionTime >= min ), "$message, it is less than $min ms specified as 'min'"
+        assert ( executionTime <= max ), "$message, it is more than $max ms specified as 'max'"
         log.info( message )
     }
 
