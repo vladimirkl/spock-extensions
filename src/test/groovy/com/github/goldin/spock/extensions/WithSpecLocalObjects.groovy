@@ -31,7 +31,7 @@ class WithSpecLocalObjects extends Specification
 
     @Time( min = 0, max = 300 )
     @With({ [ 'string', [ 1 : 3 ], [ true ] ] })
-    @FailsWith( value = AssertionError, reason = 'No @With object responds to method [aaaa]' )
+    @FailsWith( value = RuntimeException, reason = 'No @With object responds to method [aaaa]' )
     def 'failing test method' () {
 
         expect:

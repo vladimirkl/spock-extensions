@@ -63,8 +63,8 @@ task groovydocJar( type: Jar, dependsOn: groovydoc ) {
 }
 
 artifacts {
-     archives sourcesJar
-     archives groovydocJar
+    archives sourcesJar
+    archives groovydocJar
 }
 
 test.afterSuite {

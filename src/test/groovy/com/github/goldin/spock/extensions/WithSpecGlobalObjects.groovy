@@ -32,7 +32,7 @@ class WithSpecGlobalObjects extends Specification
 
     @Time( min = 0, max = 300 )
     @With({ [ 'string', [ 1 : 3 ], [ true ] ] })
-    @FailsWith( value = AssertionError, reason = 'No @With object responds to method [aaaa]' )
+    @FailsWith( value = RuntimeException, reason = 'No @With object responds to method [aaaa]' )
     def 'failing test method' () {
 
         expect:
@@ -80,7 +80,7 @@ class WithSpecGlobalObjects extends Specification
     @Time( min = 0, max = 200 )
     @With({ null })
 //    Doesn't fail due to global objects
-//    @FailsWith( value = AssertionError, reason = 'Only null objects specified to @With' )
+//    @FailsWith( value = RuntimeException, reason = 'Only null objects specified to @With' )
     def 'single null test method' () {
 
         expect:
@@ -92,7 +92,7 @@ class WithSpecGlobalObjects extends Specification
     @Time( min = 0, max = 200 )
     @With({ [ null ] })
 //    Doesn't fail due to global objects
-//    @FailsWith( value = AssertionError, reason = 'Only null objects specified to @With' )
+//    @FailsWith( value = RuntimeException, reason = 'Only null objects specified to @With' )
     def 'single null test method - 2' () {
 
         expect:

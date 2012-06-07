@@ -43,16 +43,13 @@ class WithInterceptor extends BaseMethodInterceptor
              */
             assert this.metaObjects, 'Only null objects specified to @With'
 
-            Object  result    = null
-            boolean hasResult = false
-
-            metaObjects.find { it.respondsToMethod( methodName )}?.object?.with {
-                result    = ( args ? delegate."$methodName"( *args ) : delegate."$methodName"())
-                hasResult = true
+            for ( object in metaObjects.findAll { it.respondsToMethod( methodName )}*.object )
+            {   // noinspection GroovyEmptyCatchBlock
+                try   { return ( args ? object."$methodName"( *args ) : object."$methodName"()) }
+                catch ( ignored ) {}
             }
 
-            assert hasResult, "No @With object responds to method [$methodName]"
-            result
+            throw new RuntimeException( "No @With object responds to method [$methodName]" )
         }
 
         specMeta.propertyMissing = {
@@ -65,16 +62,13 @@ class WithInterceptor extends BaseMethodInterceptor
              */
             assert this.metaObjects, 'Only null objects specified to @With'
 
-            Object  result    = null
-            boolean hasResult = false
-
-            metaObjects.find { it.hasProperty( propertyName ) }?.object?.with {
-                result    = delegate."$propertyName"
-                hasResult = true
+            for ( object in metaObjects.findAll { it.hasProperty( propertyName ) }*.object )
+            {   // noinspection GroovyEmptyCatchBlock
+                try   { return object."$propertyName" }
+                catch ( ignored ){}
             }
 
-            assert hasResult, "No @With object has property [$propertyName]"
-            result
+            throw new RuntimeException( "No @With object has property [$propertyName]" )
         }
 
         invocation.proceed()
