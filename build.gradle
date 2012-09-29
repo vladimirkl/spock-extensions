@@ -1,26 +1,22 @@
 apply plugin: 'groovy'
 apply plugin: 'maven'
 apply plugin: 'idea'
+apply plugin: 'duplicates'
 apply plugin: 'about'
 apply from:   'file:groovydoc.gradle'
-apply from:   'file:mavenCentral.gradle'
 
-defaultTasks 'clean', 'codenarc', 'build', 'about', 'install'
+defaultTasks 'duplicates', 'clean', 'codenarc', 'build', 'about', 'install'
 
 
 group                    = 'com.github.goldin'
 ext.codenarcRuleSetFiles = [ 'codenarc.groovy' ]
-apply from: 'https://raw.github.com/evgeny-goldin/gradle-plugins/dev/src/main/groovy/CodeNarc.gradle'
+apply from: 'https://raw.github.com/evgeny-goldin/gradle-plugins/master/codenarc/CodeNarc.gradle'
 
 
 buildscript {
-    repositories {
-//        maven   { url "${ System.properties[ 'user.home' ] }/.m2/repository" }
-        mavenRepo url: 'http://evgenyg.artifactoryonline.com/evgenyg/repo/'
-    }
-    dependencies {
-        classpath 'com.github.goldin.plugins:gradle:0.1.2'
-    }
+    repositories { mavenRepo url: 'http://evgenyg.artifactoryonline.com/evgenyg/repo/' }
+    dependencies { classpath 'com.github.goldin.plugins.gradle:about:0.2-beta',
+                             'com.github.goldin.plugins.gradle:duplicates:0.2-beta' }
 }
 
 
@@ -29,27 +25,36 @@ about        { dumpDependencies = true }
 
 
 dependencies {
-    groovy      'org.codehaus.groovy:groovy-all:1.8.6'
+    groovy      'org.codehaus.groovy:groovy-all:1.8.8'
     compile   ( 'org.spockframework:spock-core:0.6-groovy-1.8' ) { exclude group: 'org.codehaus.groovy' }
     compile     'org.gcontracts:gcontracts-core:1.2.5',
-                'org.slf4j:slf4j-api:1.6.4'
-    testRuntime 'ch.qos.logback:logback-classic:1.0.4'
+                'org.slf4j:slf4j-api:1.7.1'
+    testRuntime 'ch.qos.logback:logback-classic:1.0.7'
 }
 
 
 idea.project {
-    jdkName = '1.6'
+    jdkName = '1.7'
     ipr.withXml { provider -> provider.node.component.find { it.@name == 'VcsDirectoryMappings' }.mapping.@vcs = 'Git' }
 }
 
 
 idea.module {
     downloadSources = true
-    downloadJavadoc = true
+    downloadJavadoc = false
+    iml.withXml {
+        provider ->
+        provider.node.component.content.first().with {
+            appendNode( 'excludeFolder', [ url : 'file://$MODULE_DIR$/gradle' ])
+            appendNode( 'excludeFolder', [ url : 'file://$MODULE_DIR$/out'    ])
+        }
+        provider.node.component.first().appendNode( 'orderEntry', [ type : 'library', name : 'Groovy', level: 'application' ])
+    }
+
 }
 
 
-task wrapper( type: Wrapper ) { gradleVersion = '1.0-rc-3' }
+task wrapper( type: Wrapper ) { gradleVersion = '1.2' }
 
 
 task sourcesJar( type: Jar, dependsOn: classes ) {
