@@ -5,7 +5,8 @@ apply plugin: 'duplicates'
 apply plugin: 'about'
 apply from:   'file:groovydoc.gradle'
 
-defaultTasks 'duplicates', 'clean', 'codenarc', 'build', 'about', 'install'
+
+defaultTasks 'duplicates', 'codenarc', 'clean', 'build', 'about', 'install'
 
 
 group                    = 'com.github.goldin'
