@@ -6,6 +6,7 @@ import org.spockframework.runtime.extension.AbstractMethodInterceptor
 import org.spockframework.runtime.extension.IMethodInvocation
 import spock.lang.Specification
 
+
 /**
  * Helper base class for classes extending {@link AbstractMethodInterceptor}.
  */

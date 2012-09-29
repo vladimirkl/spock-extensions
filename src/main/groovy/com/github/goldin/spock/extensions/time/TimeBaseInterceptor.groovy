@@ -1,21 +1,19 @@
 package com.github.goldin.spock.extensions.time
-
 import com.github.goldin.spock.extensions.BaseMethodInterceptor
-import groovy.util.logging.Slf4j
 import org.gcontracts.annotations.Ensures
 import org.gcontracts.annotations.Requires
+import org.slf4j.LoggerFactory
 import org.spockframework.runtime.extension.IMethodInvocation
 
 
 /**
  * Base class for all {@code @Time} interceptors.
  */
-@Slf4j
 abstract class TimeBaseInterceptor extends BaseMethodInterceptor
 {
     protected final long min
     protected final long max
-
+    private static final LOG = LoggerFactory.getLogger( TimeBaseInterceptor )
 
     @Requires({ ( min >= 0 ) && ( max > min ) })
     @Ensures({ ( this.min == min ) && ( this.max == max ) })
@@ -45,7 +43,7 @@ abstract class TimeBaseInterceptor extends BaseMethodInterceptor
         final message = "$title execution time is $executionTime ms"
         assert ( executionTime >= min ), "$message, it is less than $min ms specified as 'min'"
         assert ( executionTime <= max ), "$message, it is more than $max ms specified as 'max'"
-        log.info( message )
+        LOG.info( message )
     }
 
 

@@ -1,16 +1,17 @@
 package com.github.goldin.spock.extensions.log
 
-import groovy.util.logging.Slf4j
+import org.slf4j.LoggerFactory
 
 
 /**
  * Logger class used by extensions.
  */
-@Slf4j
 class Logger
 {
+    private static final LOG = LoggerFactory.getLogger( Logger )
+
     void log( String message )
     {
-        log.info( message )
+        LOG.info( message )
     }
 }
