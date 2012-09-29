@@ -23,11 +23,15 @@ buildscript {
 
 repositories { mavenRepo url: 'http://evgenyg.artifactoryonline.com/evgenyg/repo/' }
 about        { dumpDependencies = true }
+duplicates   { configurations   = ['runtime'] }
 
 
 dependencies {
     groovy      'org.codehaus.groovy:groovy-all:1.8.8'
-    compile   ( 'org.spockframework:spock-core:0.6-groovy-1.8' ) { exclude group: 'org.codehaus.groovy' }
+    compile   ( 'org.spockframework:spock-core:0.6-groovy-1.8' ) {
+        exclude group: 'org.codehaus.groovy'
+        exclude group: 'org.hamcrest'
+    }
     compile     'org.gcontracts:gcontracts-core:1.2.5',
                 'org.slf4j:slf4j-api:1.7.1'
     testRuntime 'ch.qos.logback:logback-classic:1.0.7'
