@@ -16,6 +16,6 @@ class TestDirExtension extends AbstractAnnotationDrivenExtension<TestDir>
     void visitFieldAnnotation ( TestDir annotation, FieldInfo field )
     {
         final interceptor = new TestDirInterceptor( annotation.baseDir(), annotation.clean(), field.name )
-        field.parent.getTopSpec().setupMethod.addInterceptor( interceptor )
+        field.parent.topSpec.addSetupInterceptor interceptor
     }
 }

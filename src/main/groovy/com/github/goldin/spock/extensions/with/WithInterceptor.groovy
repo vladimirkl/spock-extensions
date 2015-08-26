@@ -26,7 +26,7 @@ class WithInterceptor extends BaseMethodInterceptor
     @SuppressWarnings([ 'UnnecessaryReturnKeyword', 'GroovyReturnFromClosureCanBeImplicit' ])
     void interceptFeatureExecution ( IMethodInvocation invocation )
     {
-        def specMeta = getSpec( invocation ).class.metaClass
+        def specMeta = invocation.instance.class.metaClass
 
         /**
          * Before every feature invocation both "methodMissing" and "propertyMissing" are redefined

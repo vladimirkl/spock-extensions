@@ -20,6 +20,8 @@ abstract class BaseMethodInterceptor extends AbstractMethodInterceptor
     @Ensures({ result instanceof Specification })
     protected final Specification getSpec( IMethodInvocation invocation )
     {
-        ( Specification ) invocation.target.with { delegate instanceof Specification ? delegate : invocation.sharedInstance }
+        ( Specification ) invocation.target.with {
+            delegate instanceof Specification ? delegate : invocation.sharedInstance
+        }
     }
 }

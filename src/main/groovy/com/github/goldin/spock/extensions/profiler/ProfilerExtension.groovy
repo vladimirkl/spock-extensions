@@ -2,6 +2,7 @@ package com.github.goldin.spock.extensions.profiler
 
 import org.gcontracts.annotations.Requires
 import org.spockframework.runtime.AbstractRunListener
+import org.spockframework.runtime.extension.AbstractGlobalExtension
 import org.spockframework.runtime.extension.IGlobalExtension
 import org.spockframework.runtime.extension.IMethodInterceptor
 import org.spockframework.runtime.extension.IMethodInvocation
@@ -14,7 +15,7 @@ import org.spockframework.runtime.model.ErrorInfo
 /**
  * Global extension profiling features execution time.
  */
-class ProfilerExtension implements IGlobalExtension
+class ProfilerExtension extends AbstractGlobalExtension
 {
     private final Collection<NodeData> data = new ConcurrentLinkedQueue<NodeData>()
 

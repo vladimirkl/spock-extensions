@@ -59,7 +59,7 @@ class TestDirInterceptor extends BaseMethodInterceptor
     @Requires({ invocation && baseDir && fieldName })
     void interceptSetupMethod ( IMethodInvocation invocation )
     {
-        final specInstance = getSpec( invocation )
+        final specInstance = invocation.instance
         final testDirName  = "${ specInstance.class.name }/${ invocation.feature.name.replaceAll( /\W+/, '-' ) }"
         File  testDir      = new File( baseDir, testDirName ).canonicalFile
 

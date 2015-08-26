@@ -12,7 +12,7 @@ class TempDirSharedInterceptor extends TempDirManagingInterceptor
     @Override
     void interceptSetupSpecMethod(IMethodInvocation invocation)
     {
-        setupDirectory( getSpec( invocation ))
+        setupDirectory(invocation.sharedInstance)
         invocation.proceed()
     }
 
@@ -26,7 +26,7 @@ class TempDirSharedInterceptor extends TempDirManagingInterceptor
     @Override
     void install(SpecInfo spec)
     {
-        spec.setupSpecMethod.addInterceptor this
-        spec.cleanupSpecMethod.addInterceptor this
+        spec.addSetupSpecInterceptor this
+        spec.addCleanupSpecInterceptor this
     }
 }
