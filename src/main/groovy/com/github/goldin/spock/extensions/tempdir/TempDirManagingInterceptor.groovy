@@ -1,11 +1,10 @@
 package com.github.goldin.spock.extensions.tempdir
 
-import com.github.goldin.spock.extensions.BaseMethodInterceptor
+import org.spockframework.runtime.extension.AbstractMethodInterceptor
 import org.spockframework.runtime.model.FieldInfo
 import org.spockframework.runtime.model.SpecInfo
 
-
-abstract class TempDirManagingInterceptor extends BaseMethodInterceptor
+abstract class TempDirManagingInterceptor extends AbstractMethodInterceptor
 {
 
     private final FieldInfo field

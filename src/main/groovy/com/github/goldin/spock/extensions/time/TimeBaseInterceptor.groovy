@@ -1,17 +1,15 @@
 package com.github.goldin.spock.extensions.time
 
-import com.github.goldin.spock.extensions.BaseMethodInterceptor
 import groovy.util.logging.Slf4j
 import org.gcontracts.annotations.Ensures
 import org.gcontracts.annotations.Requires
+import org.spockframework.runtime.extension.AbstractMethodInterceptor
 import org.spockframework.runtime.extension.IMethodInvocation
-
-
 /**
  * Base class for all {@code @Time} interceptors.
  */
 @Slf4j
-abstract class TimeBaseInterceptor extends BaseMethodInterceptor
+abstract class TimeBaseInterceptor extends AbstractMethodInterceptor
 {
     protected final long min
     protected final long max

@@ -1,14 +1,13 @@
 package com.github.goldin.spock.extensions.testdir
 
-import com.github.goldin.spock.extensions.BaseMethodInterceptor
 import org.gcontracts.annotations.Ensures
 import org.gcontracts.annotations.Requires
+import org.spockframework.runtime.extension.AbstractMethodInterceptor
 import org.spockframework.runtime.extension.IMethodInvocation
-
 /**
  * {@link @TestDir} listener.
  */
-class TestDirInterceptor extends BaseMethodInterceptor
+class TestDirInterceptor extends AbstractMethodInterceptor
 {
     private final String  baseDir
     private final boolean clean

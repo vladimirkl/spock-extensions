@@ -1,15 +1,13 @@
 package com.github.goldin.spock.extensions.with
 
-import com.github.goldin.spock.extensions.BaseMethodInterceptor
 import org.gcontracts.annotations.Ensures
 import org.gcontracts.annotations.Requires
+import org.spockframework.runtime.extension.AbstractMethodInterceptor
 import org.spockframework.runtime.extension.IMethodInvocation
-
-
 /**
  * {@code @With} extension interceptor.
  */
-class WithInterceptor extends BaseMethodInterceptor
+class WithInterceptor extends AbstractMethodInterceptor
 {
     private final List<WithObjectMeta> metaObjects
 
